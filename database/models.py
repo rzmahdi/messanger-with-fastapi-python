@@ -16,6 +16,7 @@ class User(Base):
 
 
 class Room(Base):
+    __tablename__ = "rooms"
     id = Column(Integer, autoincrement=True, primary_key=True)
     name = Column(String(50), unique=True, nullable=False)
     created_by = Column(Integer, ForeignKey("users.id"), nullable=False)
