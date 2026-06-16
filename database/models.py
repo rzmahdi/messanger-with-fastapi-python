@@ -24,7 +24,7 @@ class Room(Base):
     created_at = Column(DateTime, default=datetime.now, nullable=False)
 
     creator = relationship("User", back_populates="rooms")
-    messages = relationship("Messages", back_populates="room")
+    messages = relationship("Message", back_populates="room")
 
 
 class Message(Base):
