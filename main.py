@@ -11,4 +11,4 @@ async def life_span(app: FastAPI):
     print("Application Stop!")
 
 app = FastAPI(lifespan=life_span)
-app.add_route(auth.router)
+app.include_router(auth.router)
