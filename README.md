@@ -1,2 +1,2 @@
-## I want to ctrane a simple messanger
+## I want to create a simple messanger
 ## Can i?
