@@ -13,3 +13,8 @@ class UserLoginSchema(UserBaseSchema):
 class UserResponseSchema(UserBaseSchema):
     id: int
     created_at: datetime
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
