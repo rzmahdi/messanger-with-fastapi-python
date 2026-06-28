@@ -71,10 +71,10 @@ body{
     margin-top: 2rem;
 }
 
-#passwords-not-match, #register-empty-username{
+#passwords-not-match, #register-empty-username, #register-password-invalid{
     display: none;
 }
-#passwords-not-match.error, #register-empty-username.error{
+#passwords-not-match.error, #register-empty-username.error, #register-password-invalid.error{
     display: block;
     color: red;
     font-weight: bold;
