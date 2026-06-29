@@ -15,6 +15,3 @@ app = FastAPI(lifespan=life_span)
 app.include_router(auth.router)
 app.include_router(pages.router)
 
-@app.get("/")
-def user(user: dict = Depends(get_current_user), db=Depends(get_db)):
-    return {"User": user}

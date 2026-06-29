@@ -20,3 +20,10 @@ def login_page(request: Request):
         request=request,
         name="login.html"
     )
+
+@router.get("/")
+def user(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="index.html"
+    )
