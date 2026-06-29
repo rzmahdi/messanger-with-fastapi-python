@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from database.schema import UserCreateSchema, Token
 from database.database import get_db
 from database.models import User
-from services.auth_service import hash_password, authenticate_user, create_access_token
+from services.auth_service import hash_password, authenticate_user, create_access_token, get_current_user
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
 from datetime import timedelta
@@ -37,3 +37,8 @@ def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Sessio
     
     token = create_access_token(user.username, user.id, timedelta(minutes=20))
     return {"access_token": token, "token_type": "bearer"}
+
+
+@router.get("/me")
+def me(current_user=Depends(get_current_user)):
+    return current_user
