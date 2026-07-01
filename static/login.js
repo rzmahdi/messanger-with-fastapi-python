@@ -16,6 +16,10 @@ function close_notif(){
     login_notif_modal.classList.remove("show");
 }
 
+function redirect_to_home(){
+    window.location.href = "/"
+}
+
 
 login_form.addEventListener("submit", async (e)=>{
     e.preventDefault();
