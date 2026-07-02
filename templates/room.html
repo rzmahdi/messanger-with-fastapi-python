@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Room</title>
+    <link rel="stylesheet" href="/static/room.css">
+</head>
+<body>
+    <div id="chat-container">
+        <div id="messages"></div>
+
+        <div id="input-box">
+            <input id="message-input" placeholder="Type message...">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const roomId = "{{ room_id }}";
+    </script>
+
+    <script src="/static/room.js"></script>
+
+</body>
+</html>
