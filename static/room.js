@@ -1,3 +1,7 @@
+function formatDate(dateString) {
+    return new Date(dateString).toLocaleString();
+}
+
 async function load_messages(){
     const res = await fetch(`/room/${room_id}/messages?limit=20&offset=0`);
     const messages = await res.json();
@@ -16,10 +20,12 @@ function add_message(message){
     div.className = "message";
 
     div.innerHTML = `
-    <b>${message.user.username}</b>: ${message.content}
+        <div>
+            <b>${message.user.username}</b>
+            <p>${message.content}</p>
+        </div>
+        <span>${formatDate(message.created_at)}</span>
     `;
-
-    console.log(div);
 
     container.appendChild(div);
 }
