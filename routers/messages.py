@@ -4,11 +4,13 @@ from database.database import get_db
 from services.auth_service import get_current_user
 from services.room import room_exist
 from database.models import Message, User
-from database.schema import MessageCreateSchema
+from database.schema import MessageCreateSchema, MessageResponseSchema
+from typing import List
+
 
 router = APIRouter()
 
-@router.get("/room/{room_id}/messages")
+@router.get("/room/{room_id}/messages", response_model=List[MessageResponseSchema])
 def get_messages(room_id: int, limit: int = 20, offset: int = 0, db: Session=Depends(get_db)):
     if not room_exist(room_id, db):
         raise HTTPException(404, "Room does not exists!")
