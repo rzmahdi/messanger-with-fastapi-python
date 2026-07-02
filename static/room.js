@@ -8,3 +8,16 @@ async function load_messages(){
         add_message(message);
     });
 }
+
+function add_message(message){
+    const container = document.getElementById("messgaes");
+
+    const div = document.createElement("div");
+    div.className = "mesage";
+
+    div.innerHTML = `
+    <b>${message.username || message.user_id}</b>: ${message.content}
+    `;
+
+    container.appendChild(div);
+}
