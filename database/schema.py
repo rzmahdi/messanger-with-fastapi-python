@@ -28,3 +28,7 @@ class RoomResponseSchema(BaseModel):
 
 class RoomCreateSchema(BaseModel):
     name: str
+
+
+class MessageCreateSchema(BaseModel):
+    content: str
