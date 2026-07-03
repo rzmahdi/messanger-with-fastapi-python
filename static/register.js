@@ -10,7 +10,8 @@ let register_status = false;
 
 register_close_notif_btn.addEventListener("click", (e)=>{
     close_notif();
-    redirect_to_home();
+    if(register_status)
+        redirect_to_home();
 });
 
 
