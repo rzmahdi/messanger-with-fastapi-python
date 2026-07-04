@@ -1,4 +1,5 @@
 from fastapi import WebSocket
+from typing import Any
 
 
 class ConnectionManager:
@@ -42,3 +43,12 @@ class ConnectionManager:
                 del self.active_connections[room_id]
 
         return is_last_connection
+    
+
+    async def broadcast(self, room_id: int, message: dict[str, Any]):
+        if room_id not in self.active_connections:
+            return
+
+        for user in self.active_connections[room_id].values():
+            for connection in user["connections"]:
+                await connection.send_json(message)
