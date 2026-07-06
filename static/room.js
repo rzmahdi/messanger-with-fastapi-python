@@ -72,8 +72,14 @@ const socket = new WebSocket(
 socket.onmessage = (e)=>{
     const data = JSON.parse(e.data);
 
+    const should_scroll = isNearBottom();
+
     if(data.type === "message"){
         addMessage(data);
+    }
+
+    if(should_scroll){
+        scrollToBottom();
     }
 }
 
