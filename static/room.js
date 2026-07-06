@@ -66,6 +66,26 @@ function scrollToBottom(){
 }
 
 
+const container = document.getElementById("messages");
+container.addEventListener("scroll", async () => {
+    if (container.scrollTop === 0) {
+        const res = await fetch(
+            `/room/${room_id}/messages?limit=20&before_id=${oldest_message_id}`
+        );
+
+        const older_messages = await res.json();
+
+        if (older_messages.length === 0) return;
+
+        oldest_message_id = older_messages[0].id;
+
+        for (let i = older_messages.length - 1; i >= 0; i--) {
+            container.prepend(addMessage(older_messages[i]));
+        }
+    }
+});
+
+
 // WebSocket
 const token = localStorage.getItem("access_token");
 const socket = new WebSocket(
