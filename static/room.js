@@ -46,4 +46,20 @@ function send_message(){
     message_input.value = "";
 }
 
+
+// WebSocket
+const token = localStorage.getItem("access_token");
+const socket = new WebSocket(
+    `ws://${window.location.host}/ws/${room_id}/messages?token=${token}`
+);
+
+socket.onmessage = (e)=>{
+    const data = JSON.parse(e.data);
+
+    if(data.type === "message"){
+        add_message(data);
+    }
+}
+
+
 load_messages();
