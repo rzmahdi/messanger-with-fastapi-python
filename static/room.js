@@ -34,7 +34,7 @@ function addMessage(message){
     container.appendChild(div);
 }
 
-function send_message(){
+function sendMessage(){
     const message = message_input.value.trim();
 
     if(!message) return;
@@ -63,10 +63,10 @@ socket.onmessage = (e)=>{
 
 
 loadMessages();
-send_message_btn.addEventListener("click", send_message);
+send_message_btn.addEventListener("click", sendMessage);
 message_input.addEventListener("keydown", (e)=>{
     if(e.key === "Enter"){
         e.preventDefault();
-        send_message();
+        sendMessage();
     }
 });
