@@ -47,6 +47,18 @@ function sendMessage(){
 }
 
 
+function isNearBottom(){
+    const messages = document.getElementById("messages");
+
+    return (
+        messages.scrollHeight -
+        messages.scrollTop -
+        messages.clientHeight < 100
+    )
+}
+
+
+
 // WebSocket
 const token = localStorage.getItem("access_token");
 const socket = new WebSocket(
