@@ -1,10 +1,12 @@
 from pwdlib import PasswordHash
 from database.models import User
+from database.database import get_db
 from datetime import datetime, timedelta, timezone
 from jose import jwt, JWTError
 from typing import Annotated
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
+from sqlalchemy.orm import Session
 
 
 password_hash = PasswordHash.recommended()
@@ -36,7 +38,7 @@ def create_access_token(username: str, user_id: int, exp_delta: timedelta):
     return jwt.encode(encode, SECRET_KEY, algorithm=ALGORITHM)
 
 
-def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
+def get_user_from_token(token: str, db: Session):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username = payload.get("sub")
@@ -44,7 +46,15 @@ def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
 
         if username is None or user_id is None:
             raise HTTPException(401, "Could not validate user!")
-        return {"username": username, "id": user_id}
-    
+
+        user = db.query(User).filter_by(id=user_id).first()
+        if not user:
+            raise HTTPException(401, "Could not validate user!")
+        return user
+
     except JWTError:
         raise HTTPException(401, "Could not validate user!")
+
+
+def get_current_user(token: Annotated[str, Depends(oauth2_bearer)], db: Session=Depends(get_db)):
+    return get_user_from_token(token, db)
