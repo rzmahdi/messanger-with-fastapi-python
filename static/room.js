@@ -73,21 +73,35 @@ function scrollToBottom(){
 
 
 const container = document.getElementById("messages");
+let is_loading_older = false;
+
 container.addEventListener("scroll", async () => {
-    if (container.scrollTop === 0) {
+    if (container.scrollTop === 0 && !is_loading_older && oldest_message_id !== null) {
+        is_loading_older = true;
+
         const res = await fetch(
             `/room/${room_id}/messages?limit=20&before_id=${oldest_message_id}`
         );
-
         const older_messages = await res.json();
 
-        if (older_messages.length === 0) return;
+        if (older_messages.length === 0) {
+            oldest_message_id = null;
+            is_loading_older = false;
+            return;
+        }
 
         oldest_message_id = older_messages[0].id;
+
+        const previous_scroll_height = container.scrollHeight;
 
         for (let i = older_messages.length - 1; i >= 0; i--) {
             addMessage(older_messages[i], true);
         }
+
+        const new_scroll_height = container.scrollHeight;
+        container.scrollTop += (new_scroll_height - previous_scroll_height);
+
+        is_loading_older = false;
     }
 });
 
