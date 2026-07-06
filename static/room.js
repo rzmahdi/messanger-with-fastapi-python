@@ -1,5 +1,6 @@
 send_message_btn = document.getElementById("send-btn");
 message_input = document.getElementById("message-input");
+let oldest_message_id = null;
 
 
 function formatDate(dateString) {
@@ -7,14 +8,16 @@ function formatDate(dateString) {
 }
 
 async function loadMessages(){
-    const res = await fetch(`/room/${room_id}/messages?limit=20&offset=0`);
+    const res = await fetch(`/room/${room_id}/messages?limit=20`);
     const messages = await res.json();
 
-    const container = document.getElementById("messages");
+    messages.forEach(m => addMessage(m));
 
-    messages.forEach(message => {
-        addMessage(message);
-    });
+    if(messages.length > 0){
+        oldest_message_id = messages[0].id;
+    }
+
+    scrollToBottom();
 }
 
 function addMessage(message){
