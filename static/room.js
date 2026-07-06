@@ -6,7 +6,7 @@ function formatDate(dateString) {
     return new Date(dateString).toLocaleString();
 }
 
-async function load_messages(){
+async function loadMessages(){
     const res = await fetch(`/room/${room_id}/messages?limit=20&offset=0`);
     const messages = await res.json();
 
@@ -62,7 +62,7 @@ socket.onmessage = (e)=>{
 }
 
 
-load_messages();
+loadMessages();
 send_message_btn.addEventListener("click", send_message);
 message_input.addEventListener("keydown", (e)=>{
     if(e.key === "Enter"){
