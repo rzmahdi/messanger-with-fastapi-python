@@ -20,7 +20,7 @@ async function loadMessages(){
     scrollToBottom();
 }
 
-function addMessage(message){
+function addMessage(message, prepend = false){
     const container = document.getElementById("messages");
 
     const div = document.createElement("div");
@@ -34,7 +34,13 @@ function addMessage(message){
         <span>${formatDate(message.created_at)}</span>
     `;
 
-    container.appendChild(div);
+    if(prepend){
+        container.prepend(div);
+    }else {
+        container.appendChild(div);
+    }
+
+    return div;
 }
 
 function sendMessage(){
@@ -80,7 +86,7 @@ container.addEventListener("scroll", async () => {
         oldest_message_id = older_messages[0].id;
 
         for (let i = older_messages.length - 1; i >= 0; i--) {
-            container.prepend(addMessage(older_messages[i]));
+            addMessage(older_messages[i], true);
         }
     }
 });
