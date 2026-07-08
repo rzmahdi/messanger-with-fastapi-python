@@ -87,12 +87,13 @@ body{
 
 #passwords-not-match, #register-empty-username, #register-password-invalid{
     display: none;
-}
-#passwords-not-match.error, #register-empty-username.error, #register-password-invalid.error{
-    display: block;
     color: red;
     font-weight: bold;
     animation: show_password_error .5s ease;
+    width: 80%;
+}
+#passwords-not-match.error, #register-empty-username.error, #register-password-invalid.error{
+    display: block;
 }
 
 #register-modal-overlay-notif{
