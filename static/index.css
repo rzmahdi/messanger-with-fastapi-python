@@ -13,6 +13,7 @@ body{
     width: 100%;
     height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
 }
 
@@ -59,14 +60,60 @@ header{
     background-color: rgba(255, 0, 0, 0.5);
 }
 
+.search-box{
+    width: 90%;
+    max-width: 800px;
+    height: 3rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .8rem;
+
+    margin: 10rem 0 1rem 0;
+}
+
+#search-room-input{
+    width: 90%;
+    height: 100%;
+    padding: 0 1rem;
+
+    background-color: rgb(255, 255, 255, .1);
+    color: white;
+
+    font-size: large;
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 7px;
+    outline: none;
+
+}
+
+#create-room{
+    background-color: rgb(255, 255, 255, .1);
+    color: white;
+
+    padding: .5rem;
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 7px;
+    transition: .2s ease;
+    cursor: pointer;
+}
+
+#create-room:hover{
+    background-color: rgb(255, 255, 255, .3);
+}
+
+
 #rooms-container{
     width: 90%;
     max-width: 800px;
-    margin: 6rem auto 0;
+    margin:0;
     display: flex;
     flex-direction: column; 
     gap: .8rem;
-    height: 80vh;
+    height: 60vh;
     padding-top: 5px;
     overflow-y: scroll;
     padding-right: .3rem;
