@@ -53,21 +53,6 @@ body{
     gap: 1rem;
 }
 
-#messages::-webkit-scrollbar {
-    width: 5px;
-}
-#messages::-webkit-scrollbar-track {
-    background: transparent; 
-}
-#messages::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 1rem;
-}
-#messages::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.5);
-}
-
 #messages .message{
     min-width: 20%;
     max-width: 70%;
@@ -127,9 +112,10 @@ body{
 
 #input-box{
     flex-shrink: 0;
-    height: 60px;
+    min-height: 60px;
+    height: auto;
     display: flex;
-    align-items: center;
+    align-items: flex-end;  
     gap: 10px;
     padding: 10px 15px;
     background-color: rgba(0, 0, 0, 0.15);
@@ -138,15 +124,37 @@ body{
 
 #message-input{
     flex: 1;
-    height: 40px;
-    padding: 0 15px;
+    resize: none;
+    overflow-y: auto;
+
+    padding: 10px 15px;
     border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.15);
     background-color: rgba(255, 255, 255, 0.08);
     color: rgb(230, 230, 230);
     font-size: 14px;
+    font-family: inherit;
+    line-height: 1.4;
     outline: none;
+
+    max-height: calc(1.4em * 4 + 20px);
+
     transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+#messages::-webkit-scrollbar, #message-input::-webkit-scrollbar {
+    width: 5px;
+}
+#messages::-webkit-scrollbar-track, #message-input::-webkit-scrollbar-track {
+    background: transparent; 
+}
+#messages::-webkit-scrollbar-thumb, #message-input::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+}
+#messages::-webkit-scrollbar-thumb:hover, #message-input::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
 }
 
 #message-input::placeholder{
@@ -167,6 +175,7 @@ body{
     color: white;
     font-size: 14px;
     cursor: pointer;
+    flex-shrink: 0;
     transition: background-color 0.15s ease, transform 0.1s ease;
 }
 
