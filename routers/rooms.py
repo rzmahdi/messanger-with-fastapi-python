@@ -9,8 +9,13 @@ from typing import List
 router = APIRouter()
 
 @router.get("/rooms", response_model=List[RoomResponseSchema])
-def retrive_rooms(request: Request, db: Session=Depends(get_db)):
-    return db.query(Room).all()
+def retrive_rooms(request: Request, room_name: str | None = None, db: Session=Depends(get_db)):
+    query = db.query(Room)
+
+    if room_name:
+        query = query.filter(Room.name.ilike(f"%{room_name}%"))
+
+    return query.all()
 
 
 @router.post("/rooms", status_code=201)
