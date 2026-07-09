@@ -41,7 +41,6 @@ function clearRooms(){
 }
 
 async function display_rooms(room_name = null){
-    console.log(room_name);
     if(room_name){
         rooms_response = await fetch(`/rooms?room_name=${room_name}`);
     }else{
