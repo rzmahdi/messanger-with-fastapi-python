@@ -50,6 +50,7 @@ async function checkLogin(){
     if(response.ok){
         const user = await response.json();
         display_username.textContent = user.username;
+        return true
     }
 }
 
