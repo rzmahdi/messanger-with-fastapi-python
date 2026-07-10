@@ -281,7 +281,12 @@ send_message_btn.addEventListener("click", sendMessage);
 message_input.addEventListener("keydown", (e)=>{
     if(e.key === "Enter" && !e.shiftKey){
         e.preventDefault();
-        sendMessage();
+        if(is_editing){
+            editMessage();
+            is_editing = false;
+        }else{
+            sendMessage();
+        }
     }
 });
 
