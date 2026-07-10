@@ -71,6 +71,7 @@ function addMessage(message, prepend = false){
 
     const div = document.createElement("div");
     div.className = "message";
+    div.dataset.message_id = message.id;
 
     if(message.user.username === current_user.sub){
         div.classList.add("me");
