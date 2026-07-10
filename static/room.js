@@ -200,6 +200,14 @@ function hideSendBtn(){
     send_message_btn.classList.remove("show");
 }
 
+function showEditdBtn(){
+    edit_message_btn.classList.add("show");
+}
+
+function hideEditBtn(){
+    edit_message_btn.classList.remove("show");
+}
+
 
 go_to_bottom_btn.addEventListener("click", scrollToBottom)
 
