@@ -8,6 +8,7 @@ const token = localStorage.getItem("access_token");
 
 let oldest_message_id = null;
 let selected_message_id = null;
+let is_editing = null;
 
 
 async function checkLogin(){    
@@ -222,6 +223,7 @@ function hideEditBtn(){
 
 
 message_context_edit_btn.addEventListener("click", ()=>{
+    is_editing = true;
     hideContextBox();
     hideSendBtn();
     showEditdBtn();
@@ -247,6 +249,7 @@ edit_message_btn.addEventListener("click", async ()=>{
 
     if(edit_message_response.ok){
         editMessage();
+        is_editing = false;
     }
 })
 
@@ -281,7 +284,16 @@ message_input.addEventListener("keydown", (e)=>{
         sendMessage();
     }
 });
-message_input.addEventListener("input", autoResizeTextarea);
+
+
+message_input.addEventListener("input", (e)=>{
+    autoResizeTextarea();
+    if(message_input.value.length === 0){
+        is_editing = false;
+        hideEditBtn();
+        showSendBtn();
+    }
+});
 
 
 document.addEventListener("click", (e) => {
