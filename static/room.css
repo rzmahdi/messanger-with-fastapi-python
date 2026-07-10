@@ -167,7 +167,8 @@ body{
     background-color: rgba(255, 255, 255, 0.12);
 }
 
-#send-btn{
+#send-btn, #edit-btn{
+    display: none;
     height: 40px;
     padding: 0 20px;
     border-radius: 20px;
@@ -180,12 +181,20 @@ body{
     transition: background-color 0.15s ease, transform 0.1s ease;
 }
 
-#send-btn:hover{
+#send-btn:hover, #edit-btn{
     background-color: rgba(0, 150, 255, 0.8);
 }
 
-#send-btn:active{
+#send-btn:active, #edit-btn{
     transform: scale(0.96);
+}
+
+#send-btn.show{
+    display: block;
+}
+
+#edit-btn.show{
+    display: block;
 }
 
 
