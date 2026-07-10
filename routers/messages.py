@@ -4,7 +4,7 @@ from database.database import get_db
 from services.auth_service import get_current_user
 from services.room import room_exist
 from database.models import Message, User
-from database.schema import MessageCreateSchema, MessageResponseSchema
+from database.schema import MessageCreateSchema, MessageResponseSchema, MessageEditSchema
 from typing import List
 
 
@@ -48,3 +48,29 @@ def send_message(
     db.add(new_message)
     db.commit()
     db.refresh(new_message)
+
+
+@router.patch("/room/{room_id}/messages/{message_id}")
+def edit_message(
+    room_id: int,
+    message_id: int,
+    request: MessageEditSchema,
+    current_user: User=Depends(get_current_user),
+    db: Session=Depends(get_db)
+    ):
+
+    if not room_exist(room_id, db):
+        raise HTTPException(404, "Room not found!")
+
+    message = db.query(Message).filter_by(id=message_id).first()
+    if not message:
+        raise HTTPException(404, "Message not found!")
+    
+    if message.user_id != current_user.id:
+        raise HTTPException(403, "You can not edit this message!")
+    
+    message.content = request.content
+    db.commit()
+    db.refresh(message)
+
+    return message
