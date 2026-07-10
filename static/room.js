@@ -168,8 +168,10 @@ function autoResizeTextarea(){
 }
 
 
-function showContextBox(){
+function showContextBox(x, y){
     message_context_box.className = "show";
+    message_context_box.style.left = `${x}px`;
+    message_context_box.style.top = `${y}px`;
 }
 
 function hideContextBox(){
