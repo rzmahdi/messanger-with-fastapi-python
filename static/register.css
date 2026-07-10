@@ -162,4 +162,9 @@ div.register-modal-notif-box span{
     div.register-modal-notif-box{
         width: 80%;
     }
+
+    #register-form{
+        width: 90%;
+        height: 90%;
+    }
 }
