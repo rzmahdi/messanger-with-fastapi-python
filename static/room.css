@@ -54,14 +54,14 @@ body{
 }
 
 #messages .message{
-    min-width: 20%;
+    min-width: 10%;
     max-width: 70%;
     width: fit-content;
-    min-height: 60px;
+    min-height: 20px;
     background-color: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 5px;
-    padding: 10px 15px 22px;
+    padding: 5px;
     color: rgb(230, 230, 230);
     position: relative;
 
@@ -93,8 +93,12 @@ body{
 }
 
 #messages .message div p{
-    margin: 10px 5px;
+    margin: 10px 3px;
     white-space: pre-wrap;
+}
+
+#messages .message.me p{
+    margin: 2px 3px 10px;
 }
 
 #messages .message span{
