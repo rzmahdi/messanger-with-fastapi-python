@@ -34,6 +34,32 @@ async def handle_new_message(data: dict, room_id: int, current_user, db):
     )
 
 
+async def handle_edit_message(data: dict, room_id: int, db):
+    new_content = data.get("content")
+    message_id = data.get("message_id")
+
+    if not message_id or not new_content:
+        return
+    
+    message = db.query(Message).filter_by(id=message_id, room_id=room_id).first()
+    if not message:
+        return
+    
+    message.content = new_content
+    db.commit()
+    db.refresh(message)
+
+    manager.broadcast(
+        room_id,
+        {
+            "type": "edit",
+            "id": message.id,
+            "content": message.content,
+            "room_id": room_id,
+        }
+    )
+
+
 @router.websocket("/ws/{room_id}/messages")
 async def room_chat(websocket: WebSocket, room_id: int):
     db = SessionLocal()
