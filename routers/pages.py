@@ -3,6 +3,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from services.room import room_exist
 from database.database import get_db
+from database.models import Room
 from sqlalchemy.orm import Session
 
 router = APIRouter()
@@ -35,12 +36,15 @@ def user(request: Request):
 def room_page(room_id: int, request: Request, db: Session=Depends(get_db)):
     if not room_exist(room_id, db):
         return page_404(request)
+    
+    room = db.query(Room).filter_by(id=room_id).first()
 
     return templates.TemplateResponse(
         name="room.html",
         request=request,
         context={
-            "room_id": room_id
+            "room_id": room_id,
+            "room_name": room.name
         }
     )
 
