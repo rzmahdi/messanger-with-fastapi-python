@@ -70,6 +70,7 @@ def edit_message(
         raise HTTPException(403, "You can not edit this message!")
     
     message.content = request.content
+    message.is_edited = True
     db.commit()
     db.refresh(message)
 
