@@ -37,3 +37,10 @@ def room_page(room_id: int, request: Request):
             "room_id": room_id
         }
     )
+
+@router.get("/404")
+def page_404(request: Request):
+    return templates.TemplateResponse(
+        name="404.html",
+        request=request
+    )
