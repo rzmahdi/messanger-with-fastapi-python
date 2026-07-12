@@ -36,6 +36,7 @@ class MessageResponseSchema(BaseModel):
     user_id: int
     room_id: int
     created_at: datetime
+    is_edited: bool
     user: UserBaseSchema
 
 class MessageCreateSchema(BaseModel):
