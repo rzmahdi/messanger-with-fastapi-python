@@ -5,12 +5,15 @@ const go_to_bottom_btn = document.getElementById("go-to-bottom-container");
 const message_context_box = document.getElementById("message-context-box");
 const message_context_edit_btn = document.getElementById("edit-message-btn");
 const message_context_delete_btn = document.getElementById("delete-message-btn");
+const chat_title_element = document.getElementById("chat-title");
+const chat_online_users_element = document.getElementById("chat-online-number");
 const token = localStorage.getItem("access_token");
 
 let oldest_message_id = null;
 let selected_message_id = null;
 let is_editing = null;
 
+chat_title_element.textContent = room_name;
 
 async function checkLogin(){    
     if(!token){
