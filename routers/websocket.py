@@ -116,7 +116,12 @@ async def room_chat(websocket: WebSocket, room_id: int):
 
     await manager.connect(room_id, current_user.id, current_user.username, websocket)
     await manager.broadcast(
-        room_id=room_id, message={"type": "join", "username": current_user.username}
+        room_id=room_id,
+        message={
+            "type": "join",
+            "username": current_user.username,
+            "online_user_count": len(manager.active_connections[room_id]),
+        }
     )
 
     try:
