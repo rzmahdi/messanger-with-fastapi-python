@@ -86,7 +86,7 @@ function addMessage(message, prepend = false){
 
     div.innerHTML = `
         <div>
-            <p>${message.content}</p>
+            <p dir='auto'>${message.content}</p>
         </div>
         <span>${formatDate(message.created_at)}</span>
     `;
