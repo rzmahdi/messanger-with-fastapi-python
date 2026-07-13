@@ -56,14 +56,6 @@ function formatDate(dateString) {
     });
 }
 
-
-function autoResizeTextarea(){
-    message_input.style.height = "auto";
-    message_input.style.height = Math.min(message_input.scrollHeight, 
-        parseFloat(getComputedStyle(message_input).maxHeight)) + "px";
-}
-
-
 async function loadMessages(){
     const res = await fetch(`/room/${room_id}/messages?limit=20`);
     const messages = await res.json();
