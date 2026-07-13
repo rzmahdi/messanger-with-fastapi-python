@@ -143,6 +143,11 @@ async def room_chat(websocket: WebSocket, room_id: int):
             room_id=room_id, user_id=current_user.id, websocket=websocket
         )
         await manager.broadcast(
-            room_id, {"type": "leave", "username": current_user.username}
+            room_id=room_id,
+            message={
+                "type": "leave",
+                "username": current_user.username,
+                "online_user_count": len(manager.active_connections[room_id]),
+            }
         )
         db.close()
