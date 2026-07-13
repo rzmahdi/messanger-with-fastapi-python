@@ -318,6 +318,10 @@ socket.onmessage = (e)=>{
     if(data.type == "delete"){
         deleteMessageInDOM(data.message_id);
     }
+
+    if(data.type === "join"){
+        chat_online_users_element.textContent = `${data.online_user_count} online`;
+    }
 }
 
 
