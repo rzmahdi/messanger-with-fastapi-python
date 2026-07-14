@@ -1,9 +1,10 @@
-from fastapi import APIRouter, Request, Depends
+from fastapi import APIRouter, Request, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database.models import Room, User
-from database.schema import RoomResponseSchema, RoomCreateSchema
+from database.schema import RoomResponseSchema, RoomCreateSchema, RoomEditSchema
 from database.database import get_db
 from services.auth_service import get_current_user
+from services.room import room_exist
 from typing import List
 
 router = APIRouter()
@@ -24,3 +25,25 @@ def create_room(request: RoomCreateSchema, user: User=Depends(get_current_user),
     db.add(new_room)
     db.commit()
     db.refresh(new_room)
+
+
+@router.patch("/rooms/{room_id}")
+def edit_room(
+    request: RoomEditSchema,
+    room_id: int,
+    user: User=Depends(get_current_user),
+    db: Session=Depends(get_db)
+    ):
+
+    if not room_exist(room_id, db):
+        raise HTTPException(404, "Room does not exists!")
+    
+    room = db.query(Room).filter_by(id=room_id, created_by=user.id).first()
+    if not room:
+        raise HTTPException(403, "you can not edit this room!")
+    
+    room.name = request.name
+    db.commit()
+    db.refresh(room)
+
+    return room
