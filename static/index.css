@@ -245,6 +245,8 @@ div.modal-notif-box span{
 
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 5px;
+
+    z-index: 2;
 }
 
 #room-context-box.show{
