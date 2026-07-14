@@ -41,7 +41,7 @@ def send_message(
 
     new_message = Message(
         content=request.content,
-        user_id=current_user.get("id"),
+        user_id=current_user.id,
         room_id=room_id
     )
 
