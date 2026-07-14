@@ -313,7 +313,7 @@ div.modal-notif-box span{
     margin-bottom: 1rem;
 }
 
-#edit-room-name{
+#edit-room-name-input{
     background: rgba(255, 255, 255, 0.12);
     color: white;
 
@@ -331,16 +331,16 @@ div.modal-notif-box span{
     transition: .2s ease;
 }
 
-#edit-room-name::placeholder{
+#edit-room-name-input::placeholder{
     color: rgba(255, 255, 255, 0.4);
     transition: .2s ease;
 }
 
-#edit-room-name:focus{
+#edit-room-name-input:focus{
     border-color: rgba(255, 255, 255, 0.4);
 }
 
-#edit-room-name:focus::placeholder{
+#edit-room-name-input:focus::placeholder{
     transform: translate(0, -15px);
     font-size: small;
     color: rgba(255, 255, 255, 0.6);
