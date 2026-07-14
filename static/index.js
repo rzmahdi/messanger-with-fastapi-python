@@ -244,6 +244,9 @@ notif_modal.addEventListener("click", (e)=>{
 })
 
 room_context_edit_btn.addEventListener("click", ()=>{
+    rename_input.value = document.querySelector(
+                `[data-room_id='${selected_room_id}'] div.room-info h3`
+            ).textContent;
     hideContextBox();
     hideErrorSpan();
     showEditModal();
