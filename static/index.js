@@ -12,8 +12,11 @@ const notif_modal = document.getElementById("modal-overlay-notif");
 const notif_text = document.getElementById("notif-modal-text");
 const close_notif_btn = document.getElementById("modal-notif-close-btn");
 
-edit_modal_overlay = document.getElementById("modal-overlay");
+const edit_modal_overlay = document.getElementById("modal-overlay");
 const close_modal_btn = document.getElementById("modal-edit-room-name-close-btn");
+const rename_room_btn = document.getElementById("modal-edit-room-name-btn");
+const rename_input = document.getElementById("edit-room-name-input");
+const room_name_error_span = document.getElementById("room-name-error");
 
 const token = localStorage.getItem("access_token");
 
@@ -50,6 +53,10 @@ function showEditModal(){
 
 function hideEditModal(){
     edit_modal_overlay.classList.remove("show");
+}
+
+function showErrorSpan(){
+    room_name_error_span.classList.add("error");
 }
 
 
@@ -174,6 +181,46 @@ create_room_btn.addEventListener("click", async (e)=>{
             clearRooms();
             display_rooms(room_name);
         }
+    }
+})
+
+rename_room_btn.addEventListener("click", async ()=>{
+    checkLogin();
+
+    new_room_name = rename_input.value;
+
+    if(new_room_name.length !== 0){
+        const rename_room_response = await fetch(`/rooms/${selected_room_id}`,{
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                name: new_room_name
+            })
+        })
+
+
+        if(rename_room_response.ok){
+            document.querySelector(
+                `[data-room_id='${selected_room_id}'] div.room-info h3`
+            ).textContent = new_room_name;
+            hideEditModal();
+
+        }else if(rename_room_response.status === 404){
+            showErrorSpan();
+            room_name_error_span.textContent = "Room does not Exists!";
+        }else if(rename_room_response.status === 409){
+            showErrorSpan();
+            room_name_error_span.textContent = "a Room with this name already exists!";
+        }else if(rename_room_response.status === 403){
+            showErrorSpan();
+            room_name_error_span.textContent = "You do not have the premission to rename this room!";
+        }
+    }else{
+        showErrorSpan();
+        room_name_error_span.textContent = "this filed can not be empty!";
     }
 })
 
