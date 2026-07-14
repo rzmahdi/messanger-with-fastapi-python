@@ -59,6 +59,10 @@ function showErrorSpan(){
     room_name_error_span.classList.add("error");
 }
 
+function hideErrorSpan(){
+    room_name_error_span.classList.remove("error");
+}
+
 
 function formatDate(dateString) {
     return new Date(dateString).toLocaleDateString();
@@ -209,16 +213,20 @@ rename_room_btn.addEventListener("click", async ()=>{
             hideEditModal();
 
         }else if(rename_room_response.status === 404){
+            hideErrorSpan();
             showErrorSpan();
             room_name_error_span.textContent = "Room does not Exists!";
         }else if(rename_room_response.status === 409){
+            hideErrorSpan();
             showErrorSpan();
             room_name_error_span.textContent = "a Room with this name already exists!";
         }else if(rename_room_response.status === 403){
+            hideErrorSpan();
             showErrorSpan();
             room_name_error_span.textContent = "You do not have the premission to rename this room!";
         }
     }else{
+        hideErrorSpan();
         showErrorSpan();
         room_name_error_span.textContent = "this filed can not be empty!";
     }
@@ -237,6 +245,7 @@ notif_modal.addEventListener("click", (e)=>{
 
 room_context_edit_btn.addEventListener("click", ()=>{
     hideContextBox();
+    hideErrorSpan();
     showEditModal();
 })
 
