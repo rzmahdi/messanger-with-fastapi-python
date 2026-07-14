@@ -98,6 +98,11 @@ async function display_rooms(room_name = null){
         location.href = `/rooms/${room.id}`
     });
 
+    div.addEventListener("contextmenu", (e)=>{
+        e.preventDefault();
+        showContextBox(e.clientX, e.clientY);
+    });
+
     rooms_container.appendChild(div);
 });
 }
