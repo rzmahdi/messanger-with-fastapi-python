@@ -78,4 +78,4 @@ class ConnectionManager:
         
         connections = self.active_connections[room_id][user_id]["connections"]
         for connection in connections:
-            connection.send_json(message)
+            await connection.send_json(message)
