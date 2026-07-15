@@ -100,7 +100,7 @@ async def handle_edit_room_name(data: dict, room_id: int, current_user, db):
     if not room_id or not new_room_name:
         return
     
-    room = db.query(Room).filter_by(id=room_id, created_by=current_user.id).first()
+    room = db.query(Room).filter_by(id=room_id).first()
     if not room:
         return
     
@@ -110,6 +110,15 @@ async def handle_edit_room_name(data: dict, room_id: int, current_user, db):
             {
                 "type": "error",
                 "content": "room_name_already_exists"
+            }
+        )
+
+    if room.created_by != current_user.id:
+        await manager.broadcast(
+            room_id,
+            {
+                "type": "error",
+                "content": "you do not have the permission"
             }
         )
     
