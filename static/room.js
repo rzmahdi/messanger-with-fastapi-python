@@ -444,9 +444,7 @@ rename_room_btn.addEventListener("click", async ()=>{
 
 
         if(rename_room_response.ok){
-            document.querySelector(
-                `[data-room_id='${selected_room_id}'] div.room-info h3`
-            ).textContent = new_room_name;
+            document.getElementById("chat-title").textContent = new_room_name;
             hideEditModal();
 
         }else if(rename_room_response.status === 404){
