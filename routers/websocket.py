@@ -103,10 +103,11 @@ async def handle_edit_room_name(data: dict, room_id: int, current_user, db):
     room = db.query(Room).filter_by(id=room_id).first()
     if not room:
         return
-    
+
     if db.query(Room).filter_by(name=new_room_name).first():
-        await manager.broadcast(
+        await manager.send_to_user(
             room_id,
+            current_user.id,
             {
                 "type": "error",
                 "status": "409",
@@ -117,8 +118,9 @@ async def handle_edit_room_name(data: dict, room_id: int, current_user, db):
         return
 
     if room.created_by != current_user.id:
-        await manager.broadcast(
+        await manager.send_to_user(
             room_id,
+            current_user.id,
             {
                 "type": "error",
                 "status": "403",
@@ -149,8 +151,9 @@ async def handle_remove_room(data: dict, room_id: int, current_user, db):
     
     room = db.query(Room).filter_by(id=room_id, created_by=current_user.id).first()
     if not room:
-        await manager.broadcast(
+        await manager.send_to_user(
             room_id,
+            current_user.id,
             {
                 "type": "error",
                 "status": "403",
