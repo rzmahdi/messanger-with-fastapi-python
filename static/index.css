@@ -305,6 +305,10 @@ div.modal-notif-box span{
     cursor: pointer;
 }
 
+#modal-edit-room-name-close-btn:hover{
+    background: rgba(255, 255, 255, 0.32);
+}
+
 #modal-overlay h3{
     margin-bottom: 1rem;
 }
