@@ -113,6 +113,7 @@ async def handle_edit_room_name(data: dict, room_id: int, current_user, db):
                 "content": "room name already exists"
             }
         )
+        return
 
     if room.created_by != current_user.id:
         await manager.broadcast(
@@ -123,6 +124,7 @@ async def handle_edit_room_name(data: dict, room_id: int, current_user, db):
                 "content": "you do not have the permission"
             }
         )
+        return
     
     room.name = new_room_name
     db.commit()
