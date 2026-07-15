@@ -175,10 +175,6 @@ header{
     background:rgba(255,255,255,.14);
 }
 
-.room:hover:active{
-    scale: .95;
-}
-
 #modal-overlay-notif, #modal-overlay{
     display: none;
     position: fixed;
