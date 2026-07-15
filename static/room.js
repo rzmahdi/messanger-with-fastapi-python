@@ -391,9 +391,9 @@ socket.onmessage = (e)=>{
     }
 
     if(data.type === "error"){
-        if(data.content === "room_name_already_exists"){
+        if(data.status === "409"){
             hideErrorSpan();
-            showErrorSpan("a Room with this name already exists!");
+            showErrorSpan(data.content);
         }
     }
 }
