@@ -389,6 +389,13 @@ socket.onmessage = (e)=>{
         alert("This room has been deleted by the owner.");
         window.location.href = "/";
     }
+
+    if(data.type === "error"){
+        if(data.content === "room_name_already_exists"){
+            hideErrorSpan();
+            showErrorSpan("a Room with this name already exists!");
+        }
+    }
 }
 
 
