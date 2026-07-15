@@ -12,6 +12,10 @@ async def handle_new_message(data: dict, room_id: int, current_user, db):
     content = data.get("content")
     if not content:
         return
+    
+    room = db.query(Room).filter_by(id=room_id).first()
+    if not room:
+        return
 
     new_message = Message(
         user_id=current_user.id, room_id=room_id, content=content
