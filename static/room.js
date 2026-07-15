@@ -468,6 +468,17 @@ rename_room_btn.addEventListener("click", async ()=>{
     }
 })
 
+rename_input.addEventListener("keydown", (e)=>{
+    if(e.key === "Enter"){
+        e.preventDefault();
+
+        new_room_name = rename_input.value;
+        if(new_room_name.length !== 0){
+            renameRoom(new_room_name);
+        }
+    }
+})
+
 document.addEventListener("click", (e) => {
     if (!message_context_box.contains(e.target)) {
         hideContextBox();
