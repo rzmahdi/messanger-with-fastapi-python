@@ -245,7 +245,7 @@ div.modal-notif-box span{
 
     width: 200px;
     height: 80px;
-    background-color: rgba(255, 255, 255, 0.075);
+    background-color: rgba(58, 58, 58);
 
     backdrop-filter: blur(4px) saturate(150%);
     display: none;
