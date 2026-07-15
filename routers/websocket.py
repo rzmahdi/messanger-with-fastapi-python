@@ -119,6 +119,7 @@ async def handle_edit_room_name(data: dict, room_id: int, current_user, db):
             room_id,
             {
                 "type": "error",
+                "status": "403",
                 "content": "you do not have the permission"
             }
         )
