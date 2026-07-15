@@ -120,6 +120,26 @@ async def handle_edit_room_name(data: dict, room_id: int, current_user, db):
     )
 
 
+async def handle_remove_room(data: dict, room_id: int, current_user, db):
+    if not room_id:
+        return
+    
+    room = db.query(Room).filter_by(id=room_id, created_by=current_user.id).first()
+    if not room:
+        return
+    
+    db.delete(room)
+    db.commit()
+
+    await manager.broadcast(
+        room_id,
+        {
+            "type": "room_deleted"
+        }
+    )
+    await manager.disconnect_all(room_id)
+
+
 @router.websocket("/ws/{room_id}/messages")
 async def room_chat(websocket: WebSocket, room_id: int):
     db = SessionLocal()
