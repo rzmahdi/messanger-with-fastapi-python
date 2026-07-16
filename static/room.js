@@ -22,6 +22,7 @@ const rename_input = document.getElementById("edit-room-name-input");
 const room_name_error_span = document.getElementById("room-name-error");
 
 const edit_box = document.getElementById("edit-box");
+const close_edit_box_btn = document.getElementById("edit-box-close-btn");
 
 let oldest_message_id = null;
 let selected_message_id = null;
@@ -550,6 +551,15 @@ rename_input.addEventListener("keydown", (e)=>{
         }
     }
 })
+
+close_edit_box_btn.addEventListener("click", ()=>{
+    message_input.value = "";
+    autoResizeTextarea();
+    hideEditBox();
+    hideEditBtn();
+    showSendBtn();
+    is_editing = false;
+});
 
 document.addEventListener("click", (e) => {
     if (!message_context_box.contains(e.target)) {
