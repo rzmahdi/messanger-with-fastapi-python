@@ -111,8 +111,9 @@ function addMessage(message, prepend = false){
     }
 
 
-    div.addEventListener("contextmenu", (e)=>{
+    div.addEventListener("click", (e)=>{
         if(div.classList.contains("me")){
+            e.stopPropagation();
             const message = e.target.closest(".message");
             if(!message) return;
 
@@ -120,7 +121,6 @@ function addMessage(message, prepend = false){
             hideRoomContextBox();
             showContextBox(e.clientX, e.clientY);
         }
-        e.preventDefault();
     });
 
 
@@ -394,8 +394,9 @@ edit_message_btn.addEventListener("click", async ()=>{
     editMessage();
 })
 
-chat_title_container.addEventListener("contextmenu", (e)=>{
+chat_title_container.addEventListener("click", (e)=>{
     e.preventDefault();
+    e.stopPropagation();
     hideContextBox();
     showRoomContextBox(e.clientX, e.clientY);
 })
