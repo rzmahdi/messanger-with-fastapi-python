@@ -309,7 +309,10 @@ function showEditBox(){
     }, 10);
 }
 function hideEditBox(){
-    edit_box.classList.add("show");
+    edit_box.classList.remove("show");
+    setTimeout(() => {
+        edit_box.classList.add("disable");
+    }, 400);
 }
 
 
@@ -406,6 +409,7 @@ message_context_delete_btn.addEventListener("click", async()=>{
 edit_message_btn.addEventListener("click", async ()=>{
     checkLogin();
     editMessage();
+    hideEditBox();
 })
 
 chat_title_container.addEventListener("click", (e)=>{
