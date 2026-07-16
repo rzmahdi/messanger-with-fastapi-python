@@ -523,6 +523,54 @@ div.edit-room-name-box{
     scale: .96;
 }
 
+#edit-box{
+    height: 40px;
+    display: none;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: center;
+
+    background-color: rgba(0, 0, 0, 0.15);
+    transform: translate(0, 20px);
+    transition: .2s ease;
+}
+
+#edit-box.show{
+    display: flex;
+    transform: translate(0);
+}
+
+.edit-icon{
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+}
+
+#edit-box svg{
+    color: rgb(29, 163, 253);
+}
+
+#edit-text-place-holder{
+    padding: 5px;
+    color: rgb(29, 163, 253);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#edit-box-close-btn{
+    margin-right: 20px;
+    
+    background-color: transparent;
+    color: rgb(209, 209, 209);
+
+    border: none;
+    outline: none;
+
+    font-weight: bold;
+}
+
 @media (max-width: 768px){
     #chat-container{
         width: 95%;
