@@ -590,8 +590,7 @@ div.edit-room-name-box{
     }
 
     #messages .message div p {
-        margin: 0;
-        margin-left: 4px;
+        margin: 0 4px;
     }
 
     #messages .message.me p {
@@ -601,7 +600,9 @@ div.edit-room-name-box{
     }
 
     #messages .message div b {
-        padding: 2px;
+        padding: 4px;
+        font-weight: normal;
+        font-size: small;
     }
 
     #go-to-bottom-container{
