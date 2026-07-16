@@ -117,7 +117,7 @@ function addMessage(message, prepend = false){
             if(!message) return;
 
             selected_message_id = message.dataset.message_id;
-            hideContextBox();
+            hideRoomContextBox();
             showContextBox(e.clientX, e.clientY);
         }
         e.preventDefault();
@@ -396,6 +396,7 @@ edit_message_btn.addEventListener("click", async ()=>{
 
 chat_title_container.addEventListener("contextmenu", (e)=>{
     e.preventDefault();
+    hideContextBox();
     showRoomContextBox(e.clientX, e.clientY);
 })
 
