@@ -32,8 +32,8 @@ function formatDate(dateString) {
 }
 
 async function checkLogin(){
-    const token = localStorage.getItem("access_token");
-    
+    const token = getValidToken();
+
     if(!token){
         redirect_to_login();
         return
@@ -47,6 +47,7 @@ async function checkLogin(){
 
     if(response.status === 401){
         localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
         redirect_to_login();
         return
     }
