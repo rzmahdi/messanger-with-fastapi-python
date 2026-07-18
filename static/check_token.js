@@ -45,3 +45,15 @@ async function getValidToken(){
 
     return token;
 }
+
+
+function parseJwt(token){
+    try {
+        const base64Payload = token.split(".")[1];
+        const payload = JSON.parse(atob(base64Payload.replace(/-/g, "+").replace(/_/g, "/")));
+        return payload;
+    } catch(err){
+        console.error("Invalid token:", err);
+        return null;
+    }
+}
