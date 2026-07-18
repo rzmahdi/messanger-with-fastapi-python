@@ -34,3 +34,14 @@ async function refreshAccessToken(){
         return null;
     }
 }
+
+
+async function getValidToken(){
+    let token = localStorage.getItem("access_token");
+
+    if(!token || isTokenExpiringSoon(token)){
+        token = await refreshAccessToken();
+    }
+
+    return token;
+}
