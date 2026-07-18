@@ -36,7 +36,13 @@ def authenticate_user(username: str, password: str, db):
 
 
 def create_access_token(username: str, user_id: int):
-    encode = {"sub": username, "id": user_id, "exp": datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTE)}
+    encode = {
+        "sub": username,
+        "id": user_id,
+        "type": "access",
+        "exp": datetime.now(timezone.utc)
+        + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTE),
+    }
     return jwt.encode(encode, SECRET_KEY, algorithm=ALGORITHM)
 
 def create_refresh_token(username: str, user_id: int):
