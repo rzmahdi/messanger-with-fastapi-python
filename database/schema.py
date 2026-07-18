@@ -47,3 +47,7 @@ class MessageCreateSchema(BaseModel):
 
 class MessageEditSchema(BaseModel):
     content: str
+
+
+class RefreshTokenSchema(BaseModel):
+    refresh_token: str
