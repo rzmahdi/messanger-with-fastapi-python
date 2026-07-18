@@ -32,7 +32,7 @@ function formatDate(dateString) {
 }
 
 async function checkLogin(){
-    const token = getValidToken();
+    const token = await getValidToken();
 
     if(!token){
         redirect_to_login();
