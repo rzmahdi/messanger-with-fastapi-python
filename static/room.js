@@ -37,30 +37,124 @@ let is_editing = null;
 
 chat_title_element.textContent = room_name;
 
+
 function redirect_to_login(){
     window.location.href = "/login";
 }
 
+
 async function checkLogin(){
     const token = await getValidToken();
     if(!token){
-        redirect_to_login()
-        return
+        redirect_to_login();
+        return false;
     }
 
     const response = await fetch("/me", {
         headers: {
             Authorization: `Bearer ${token}`
         }
-    })
+    });
 
     if(response.status === 401){
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
-        redirect_to_login()
+        redirect_to_login();
+        return false;
     }
+
+    return true;
 }
-checkLogin()
+
+
+function isSocketReady(){
+    return window.socket && socket.readyState === WebSocket.OPEN;
+}
+
+
+async function initRoom(){
+    await checkLogin();
+
+    const fresh_token = localStorage.getItem("access_token");
+
+    window.socket = new WebSocket(
+        `ws://${window.location.host}/ws/${room_id}/messages?token=${fresh_token}`
+    );
+
+    socket.onmessage = (e)=>{
+        const data = JSON.parse(e.data);
+
+        if(data.type === "message"){
+            const should_scroll = isNearBottom();
+            addMessage(data);
+            if(should_scroll) scrollToBottom();
+        }
+
+        if(data.type == "edit"){
+            updateMessageInDOM(data.content, data.id);
+        }
+
+        if(data.type == "delete"){
+            deleteMessageInDOM(data.message_id);
+        }
+
+        if(data.type === "join"){
+            chat_online_users_element.textContent = `${data.online_user_count} online`;
+        }
+
+        if(data.type === "leave"){
+            chat_online_users_element.textContent = `${data.online_user_count} online`;
+        }
+
+        if(data.type === "room_deleted"){
+            alert("This room has been deleted by the owner.");
+            window.location.href = "/";
+        }
+
+        if(data.type === "room_edit_name"){
+            renameRoomInDOM(data.new_name);
+        }
+
+
+        if(data.type === "error"){
+            if(data.scope === "rename_room"){
+                if(data.status === "409"){
+                    hideErrorSpan();
+                    showErrorSpan(data.content);
+                }
+
+                if(data.status === "403"){
+                    hideErrorSpan();
+                    showErrorSpan(data.content);
+                }
+            }else if(data.scope === "delete_room"){
+                if(data.status === "403"){
+                    alert(data.content);
+                    hideContextBox();
+                }
+            }
+        }
+    };
+
+    socket.onclose = ()=>{
+        hideUserStatus();
+        hideOnlineStatus();
+        setTimeout(() => {
+            showOfflineStatus();
+            showUserStatus();
+        }, 10);
+    };
+
+    socket.onopen = ()=>{
+        hideUserStatus();
+        hideOfflineStatus();
+        setTimeout(() => {
+            showOnlineStatus();
+            showUserStatus();
+        }, 10);
+    };
+}
+
 
 function formatDate(dateString) {
     return new Date(dateString).toLocaleTimeString([], {
@@ -140,6 +234,11 @@ function sendMessage(){
 
     if(!message) return;
 
+    if(!isSocketReady()){
+        console.warn("Socket not ready yet, message not sent.");
+        return;
+    }
+
     socket.send(JSON.stringify({
         content: message
     }));
@@ -156,7 +255,7 @@ function isNearBottom(){
         messages.scrollHeight -
         messages.scrollTop -
         messages.clientHeight < 100
-    )
+    );
 }
 
 function scrollToBottom(){
@@ -224,7 +323,7 @@ function autoResizeTextarea(){
 
 function showContextBox(x, y){
     message_context_box.className = "show";
-    
+
     message_context_box.style.left = `${x}px`;
     message_context_box.style.top = `${y}px`;
 
@@ -247,6 +346,11 @@ function showContextBox(x, y){
 }
 
 function editMessage(){
+    if(!isSocketReady()){
+        console.warn("Socket not ready yet, edit not sent.");
+        return;
+    }
+
     socket.send(JSON.stringify({
         type: "edit",
         message_id: selected_message_id,
@@ -338,6 +442,11 @@ function hideOfflineStatus(){
 }
 
 function deleteMessage(){
+    if(!isSocketReady()){
+        console.warn("Socket not ready yet, delete not sent.");
+        return;
+    }
+
     socket.send(JSON.stringify({
         type: "delete",
         message_id: selected_message_id
@@ -345,6 +454,11 @@ function deleteMessage(){
 }
 
 function renameRoom(room_name){
+    if(!isSocketReady()){
+        console.warn("Socket not ready yet, rename not sent.");
+        return;
+    }
+
     socket.send(JSON.stringify({
         type: "room_edit_name",
         name: room_name
@@ -352,6 +466,11 @@ function renameRoom(room_name){
 }
 
 function deleteRoom(){
+    if(!isSocketReady()){
+        console.warn("Socket not ready yet, delete room not sent.");
+        return;
+    }
+
     socket.send(JSON.stringify({
         type: "delete_room"
     }));
@@ -364,7 +483,7 @@ function updateMessageInDOM(content, message_id){
     showSendBtn();
     is_editing = false;
 
-    div = document.querySelector(`[data-message_id='${message_id}']`);
+    const div = document.querySelector(`[data-message_id='${message_id}']`);
 
     if(div.lastChild.textContent !== "edited"){
         const span = document.createElement("span");
@@ -374,9 +493,12 @@ function updateMessageInDOM(content, message_id){
 }
 
 function deleteMessageInDOM(message_id){
-    document.querySelector(`[data-message_id='${message_id}']`).classList.add("remove");
+    const el = document.querySelector(`[data-message_id='${message_id}']`);
+    if(!el) return;
+
+    el.classList.add("remove");
     setTimeout(() => {
-        document.querySelector(`[data-message_id='${message_id}']`).remove();
+        el.remove();
     }, 210);
 }
 
@@ -417,112 +539,32 @@ message_context_edit_btn.addEventListener("click", ()=>{
 
     message_input.value = document.querySelector(`[data-message_id='${selected_message_id}']`).getElementsByTagName("p")[0].textContent;
     autoResizeTextarea();
-})
+});
 
-message_context_delete_btn.addEventListener("click", ()=>{
+message_context_delete_btn.addEventListener("click", async ()=>{
     hideContextBox();
-    checkLogin();
+    await checkLogin();
 
     deleteMessage();
-})
+});
 
 
-edit_message_btn.addEventListener("click", ()=>{
-    checkLogin();
+edit_message_btn.addEventListener("click", async ()=>{
+    await checkLogin();
     hideEditBox();
 
     editMessage();
-})
+});
 
 chat_title_container.addEventListener("click", (e)=>{
     e.preventDefault();
     e.stopPropagation();
     hideContextBox();
     showRoomContextBox(e.clientX, e.clientY);
-})
+});
 
-go_to_bottom_btn.addEventListener("click", scrollToBottom)
+go_to_bottom_btn.addEventListener("click", scrollToBottom);
 
-// WebSocket
-const socket = new WebSocket(
-    `ws://${window.location.host}/ws/${room_id}/messages?token=${token}`
-);
-
-socket.onmessage = (e)=>{
-    const data = JSON.parse(e.data);
-
-    if(data.type === "message"){
-        const should_scroll = isNearBottom();
-        addMessage(data);
-        if(should_scroll) scrollToBottom();
-    }
-
-    if(data.type == "edit"){
-        updateMessageInDOM(data.content, data.id);
-    }
-
-    if(data.type == "delete"){
-        deleteMessageInDOM(data.message_id);
-    }
-
-    if(data.type === "join"){
-        chat_online_users_element.textContent = `${data.online_user_count} online`;
-    }
-
-    if(data.type === "leave"){
-        chat_online_users_element.textContent = `${data.online_user_count} online`;
-    }
-
-    if(data.type === "room_deleted"){
-        alert("This room has been deleted by the owner.");
-        window.location.href = "/";
-    }
-
-    if(data.type === "room_edit_name"){
-        renameRoomInDOM(data.new_name);
-    }
-
-
-    if(data.type === "error"){
-        if(data.scope === "rename_room"){
-            if(data.status === "409"){
-                hideErrorSpan();
-                showErrorSpan(data.content);
-            }
-            
-            if(data.status === "403"){
-                hideErrorSpan();
-                showErrorSpan(data.content);
-            }
-        }else if(data.scope === "delete_room"){
-            if(data.status === "403"){
-                alert(data.content);
-                hideContextBox();
-            }
-        }
-    }
-}
-
-socket.onclose = ()=>{
-    hideUserStatus();
-    hideOnlineStatus();
-    setTimeout(() => {
-        showOfflineStatus();
-        showUserStatus();
-    }, 10);
-}
-
-socket.onopen = ()=>{
-    hideUserStatus();
-    hideOfflineStatus();
-    setTimeout(() => {
-        showOnlineStatus();
-        showUserStatus();
-    }, 10);
-}
-
-
-loadMessages();
 send_message_btn.addEventListener("click", sendMessage);
 
 message_input.addEventListener("keydown", (e)=>{
@@ -558,17 +600,17 @@ room_context_edit_btn.addEventListener("click", ()=>{
     hideRoomContextBox();
     hideErrorSpan();
     showEditModal();
-})
+});
 
 room_context_delete_btn.addEventListener("click", ()=>{
     hideRoomContextBox();
     deleteRoom();
-})
+});
 
 rename_room_btn.addEventListener("click", async ()=>{
-    checkLogin();
+    await checkLogin();
 
-    new_room_name = rename_input.value;
+    const new_room_name = rename_input.value;
 
     if(new_room_name.length !== 0){
         renameRoom(new_room_name);
@@ -576,18 +618,18 @@ rename_room_btn.addEventListener("click", async ()=>{
         hideErrorSpan();
         showErrorSpan("this filed can not be empty!");
     }
-})
+});
 
 rename_input.addEventListener("keydown", (e)=>{
     if(e.key === "Enter"){
         e.preventDefault();
 
-        new_room_name = rename_input.value;
+        const new_room_name = rename_input.value;
         if(new_room_name.length !== 0){
             renameRoom(new_room_name);
         }
     }
-})
+});
 
 close_edit_box_btn.addEventListener("click", ()=>{
     message_input.value = "";
@@ -609,7 +651,14 @@ document.addEventListener("click", (e) => {
 
 
 window.addEventListener("pagehide", () => {
-    if(socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING){
+    if(window.socket && (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING)){
         socket.close();
     }
 });
+
+
+async function init(){
+    await initRoom();
+    await loadMessages();
+}
+init();
