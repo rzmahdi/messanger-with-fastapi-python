@@ -7,7 +7,6 @@ const message_context_edit_btn = document.getElementById("edit-message-btn");
 const message_context_delete_btn = document.getElementById("delete-message-btn");
 const chat_title_element = document.getElementById("chat-title");
 const chat_online_users_element = document.getElementById("chat-online-number");
-const token = localStorage.getItem("access_token");
 
 const chat_title_container = document.getElementById("chat-title-container");
 
@@ -35,7 +34,8 @@ let is_editing = null;
 
 chat_title_element.textContent = room_name;
 
-async function checkLogin(){    
+async function checkLogin(){
+    const token = await getValidToken();
     if(!token){
         window.location.href = "/login";
         return
@@ -49,8 +49,8 @@ async function checkLogin(){
 
     if(response.status === 401){
         localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
         window.location.href = "/login";
-        return
     }
 }
 checkLogin()
