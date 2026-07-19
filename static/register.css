@@ -154,6 +154,64 @@ div.register-modal-notif-box span{
     color: orangered
 }
 
+select{
+    width: 80%;
+    height: 50px;
+
+    background-color: transparent;
+    color: rgb(233, 233, 233);
+    
+    outline: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+
+    padding: 5px;
+
+    transition: .2s ease;
+    align-items: center;
+}
+
+select:hover,
+select:focus{
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+select,
+::picker(select) {
+    appearance: base-select;
+}
+select::picker-icon {
+    transition: 0.2s rotate;
+}
+select:open::picker-icon {
+    rotate: 180deg;
+}
+
+
+option {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+
+    padding: 10px;
+
+    white-space: break-spaces;
+}
+option:focus{
+    background: rgb(216, 216, 216);
+}
+
+option:checked {
+    font-weight: bold;
+}
+
+option::checkmark {
+  order: 1;
+  margin-left: auto;
+  content: "☑️";
+}
+
+
 @media (max-width: 768px){
     #register-form{
         width: 90%;
