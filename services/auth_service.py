@@ -13,6 +13,7 @@ password_hash = PasswordHash.recommended()
 SECRET_KEY = "87sadf230bjwe27240iud23973ne3ui23fg486hdf23h389ye39gd902jv52d6dm289"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTE = 20
+RESET_TOKEN_EXPIRE_MINUTE = 5
 REFRESH_TOKEN_EXPIRE_DAY = 7
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl="/login")
 
@@ -51,6 +52,16 @@ def create_refresh_token(username: str, user_id: int):
         "id": user_id,
         "type": "refresh",
         "exp": datetime.now(timezone.utc) + timedelta(days=REFRESH_TOKEN_EXPIRE_DAY)
+    }
+    return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
+
+def create_reset_password_token(username: str, user_id: int):
+    payload = {
+        "sub": username,
+        "id": user_id,
+        "type": "reset",
+        "exp": datetime.now(timezone.utc)
+        + timedelta(minutes=RESET_TOKEN_EXPIRE_MINUTE),
     }
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 
