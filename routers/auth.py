@@ -7,6 +7,7 @@ from database.models import User
 from services.auth_service import hash_password, authenticate_user, create_access_token, get_current_user, create_refresh_token, get_user_from_token
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
+from database.models import SECURITY_QUESTIONS
 
 router = APIRouter()
 
@@ -20,8 +21,20 @@ def register(request: UserCreateSchema, db: Session = Depends(get_db)):
     )
     if existing_user:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="user allready exists!")
+    
+    if not request.security_question in SECURITY_QUESTIONS:
+        raise HTTPException(400, "Invalid security question!")
+    
+    if not request.security_answer.strip():
+        raise HTTPException(400, "Secuerity answer cannot be empty!")
 
-    new_user = User(username=request.username, password_hash=hash_password(request.password))
+    new_user = User(
+        username=request.username,
+        password_hash=hash_password(request.password),
+        security_question=request.security_question,
+        security_answer_hash=hash_password(request.security_answer.strip().lower())
+    )
+
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
