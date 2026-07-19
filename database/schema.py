@@ -18,6 +18,8 @@ class UserResponseSchema(UserBaseSchema):
     id: int
     created_at: datetime
 
+class UserForgotPasswordSchema(UserBaseSchema):
+    security_answer: str
 
 class Token(BaseModel):
     access_token: str
