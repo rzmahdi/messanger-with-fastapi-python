@@ -5,6 +5,10 @@ const register_notif_modal = document.getElementById("register-modal-overlay-not
 const register_notif_text = document.getElementById("register-notif-modal-text");
 const register_password_invalid_span = document.getElementById("register-password-invalid");
 const register_close_notif_btn = document.getElementById("register-modal-notif-close-btn");
+
+const select = document.getElementById("register-security-question");
+const register_security_answer = document.getElementById("register-security-answer");
+
 let register_status = false;
 
 
@@ -37,6 +41,19 @@ function close_notif(){
     register_notif_modal.classList.remove("show");
 }
 
+
+async function loadSecurityQuestions(){
+    const res = await fetch("/security_questions");
+    const security_questins = await res.json();
+
+    security_questins.questions.forEach(question => {
+        const option = document.createElement("option");
+        option.value = question;
+        option.textContent = question;
+        select.appendChild(option);
+    });
+}
+loadSecurityQuestions();
 
 register_form.addEventListener("submit", async (e)=>{
     e.preventDefault();
