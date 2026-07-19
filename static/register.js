@@ -94,6 +94,20 @@ register_form.addEventListener("submit", async (e)=>{
         register_password_invalid_span.classList.remove("error");
     }
 
+    if(!question_validation()){
+        question_invalid_span.classList.add("error");
+        return
+    }else{
+        question_invalid_span.classList.remove("error");
+    }
+
+    if(!answer_validation()){
+        answer_emprt_span.classList.add("error");
+        return
+    }else{
+        answer_emprt_span.classList.remove("error");
+    }
+
 
     const response = await fetch("/register", {
         method: "POST",
