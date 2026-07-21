@@ -48,6 +48,15 @@ def room_page(room_id: int, request: Request, db: Session=Depends(get_db)):
         }
     )
 
+
+@router.get("/forgot-password")
+def reset_passwordd_page(request: Request, db: Session=Depends(get_db)):
+    return templates.TemplateResponse(
+        name="reset_password.html",
+        request=request
+    )
+
+
 @router.get("/404")
 def page_404(request: Request):
     return templates.TemplateResponse(
