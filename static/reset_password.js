@@ -69,3 +69,116 @@ function password_validation(password){
     const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
     return passwordRegex.test(password);
 }
+
+reset_form.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    const username = username_input.value;
+    const security_answer = answer_input.value;
+    const new_password = password_input.value;
+
+
+    if(username.length === 0){
+        show_username_empty();
+        return;
+    }else{
+        hide_username_empty();
+        const security_question_res = await fetch(`/forgot-password/${username}`);
+
+        if(security_question_res.ok){
+            security_question = await security_question_res.json();
+            show_security_question(security_question.question);
+
+        }else if(security_question_res.status === 404){
+            hide_sequrity_question();
+            show_notif("user not found!❌");
+            let password_reset_status = false;
+            return;
+        }
+    }
+
+    if(security_answer.length === 0){
+        show_answer_empty();
+        return;
+    }else{
+        hide_answer_empty();
+    }
+
+    if(new_password.length === 0){
+        show_password_empty();
+        return;
+    }else{
+        hide_password_empty();
+    }
+
+    if(!password_validation(new_password)){
+        show_password_invalid();
+        return;
+    }else{
+        hide_password_invalid();
+    }
+
+    const verify_password_res = await fetch("/forgot-password/verify", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            username,
+            security_answer
+        })
+    })
+
+    if(verify_password_res.ok){
+        const res = await verify_password_res.json();
+        localStorage.setItem("reset_token", res.reset_token);
+    }else{
+        const error = await verify_password_res.json();
+        show_notif(error.detail+"❌");
+        let password_reset_status = false;
+        return;
+    }
+    
+    reset_token = localStorage.getItem("reset_token");
+    if(!reset_token){
+        show_notif("something went wrong! try again❌");
+        let password_reset_status = false;
+        return;
+    }
+
+
+    const reset_password_res = await fetch("/forgot-password/reset", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            new_password,
+            reset_token
+
+        })
+    });
+    if(reset_password_res.ok){
+        show_notif("password Changed Successfully✅");
+        password_reset_status = true;
+    }else{
+        const error = await reset_password_res.json();
+        show_notif(error.detail+"❌");
+        password_reset_status = false;
+        return;
+    }
+
+})
+
+
+reset_notif_modal.addEventListener("click", (e)=>{
+    if(e.target === reset_notif_modal){
+        close_notif();
+        if(password_reset_status)
+            window.location.href = "/login";
+    }
+})
+reset_close_notif_btn.addEventListener("click", ()=>{
+    close_notif();
+    if(password_reset_status)
+        window.location.href = "/login";
+});
