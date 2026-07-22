@@ -241,7 +241,10 @@ function addMessage(message, prepend = false){
         reply_div.style.borderColor = getUserColor(message.reply.user.username);
 
 
-        reply_div_text.textContent = document.querySelector(`.message[data-message_id='${message.reply_id}'] p`).textContent;
+        reply_div_text.textContent = 
+            document.querySelector(`.message[data-message_id='${message.reply_id}']
+            p:not([class])`).textContent;
+
         reply_div_text.dir = "auto";
 
         reply_div.appendChild(reply_div_username);
