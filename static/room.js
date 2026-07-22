@@ -222,6 +222,7 @@ function addMessage(message, prepend = false){
 
     if(message.reply_id){
         const el = document.querySelector(`[data-message_id='${message.reply_id}']`);
+        const color =  getUserColor(message.reply.user.username);
         if(!el) return;
 
         const reply_div = document.createElement("div");
@@ -233,12 +234,12 @@ function addMessage(message, prepend = false){
         reply_div_text.className = "message-reply-text";
 
         reply_div_username.textContent = message.reply.user.username;
-        reply_div_username.style.color = getUserColor(message.reply.user.username);
+        reply_div_username.style.color = color;
 
         if(div.classList.contains("me"))
-            reply_div.style.background = getUserColor(message.reply.user.username)+"25";
+            reply_div.style.background = color+"25";
         
-        reply_div.style.borderColor = getUserColor(message.reply.user.username);
+        reply_div.style.borderColor = color;
 
 
         reply_div_text.textContent = 
