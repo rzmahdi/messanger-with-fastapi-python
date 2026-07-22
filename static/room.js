@@ -101,7 +101,6 @@ async function initRoom(){
 
     socket.onmessage = (e)=>{
         const data = JSON.parse(e.data);
-        console.log(data);
 
         if(data.type === "message"){
             const should_scroll = isNearBottom();
