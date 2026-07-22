@@ -29,6 +29,8 @@ async def handle_reply_message(data: dict, room_id: int, current_user, db):
     db.commit()
     db.refresh(new_message)
 
+    replied_user = new_message.reply.user
+
     await manager.broadcast(
         room_id,
         {
@@ -39,6 +41,7 @@ async def handle_reply_message(data: dict, room_id: int, current_user, db):
             "reply_id": reply_id,
             "created_at": str(new_message.created_at),
             "user": {"id": current_user.id, "username": current_user.username},
+            "replied_user": {"id": replied_user.id, "username": replied_user.username}
         },
     )
 
