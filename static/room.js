@@ -26,6 +26,7 @@ const close_edit_box_btn = document.getElementById("edit-box-close-btn");
 const reply_box = document.getElementById("reply-box");
 const close_reply_box_btn = document.getElementById("reply-box-close-btn");
 const reply_username_placeholder = document.getElementById("reply-username-placeholder");
+const replied_message_content_placeholder = document.getElementById("replied-message");
 
 
 const user_status_container = document.getElementById("user-status-container");
@@ -241,6 +242,7 @@ function addMessage(message, prepend = false){
         showReplyBox();
         hideContextBox();
         reply_username_placeholder.textContent += username;
+        replied_message_content_placeholder.textContent = message.content;
     });
 
 
