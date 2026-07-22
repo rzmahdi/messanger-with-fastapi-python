@@ -480,7 +480,7 @@ function showReplyBox(){
         reply_box.classList.add("show");
     }, 10);
 }
-function hidereplyBox(){
+function hideReplyBox(){
     reply_box.classList.remove("show");
     setTimeout(() => {
         reply_box.classList.add("disable");
@@ -599,7 +599,7 @@ message_context_edit_btn.addEventListener("click", ()=>{
     is_editing = true;
     hideContextBox();
     hideSendBtn();
-    hidereplyBox();
+    hideReplyBox();
     showEditdBtn();
     showEditBox();
 
@@ -642,7 +642,7 @@ message_input.addEventListener("keydown", (e)=>{
             hideEditBox();
             editMessage();
         }else if(is_replied){
-            hidereplyBox();
+            hideReplyBox();
             sendMessage();
             is_replied = false;
         }else{
@@ -714,7 +714,7 @@ close_edit_box_btn.addEventListener("click", ()=>{
 close_reply_box_btn.addEventListener("click", ()=>{
     message_input.value = "";
     is_replied = false;
-    hidereplyBox();
+    hideReplyBox();
 })
 
 document.addEventListener("click", (e) => {
