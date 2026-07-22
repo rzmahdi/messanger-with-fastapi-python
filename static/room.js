@@ -457,6 +457,7 @@ function showEditBox(){
 }
 function hideEditBox(){
     edit_box.classList.remove("show");
+    message_input.value = "";
     setTimeout(() => {
         edit_box.classList.add("disable");
     }, 400);
