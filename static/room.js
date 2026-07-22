@@ -250,6 +250,14 @@ function addMessage(message, prepend = false){
         reply_div.appendChild(reply_div_username);
         reply_div.appendChild(reply_div_text);
 
+        reply_div.addEventListener("click", ()=>{
+            el.scrollIntoView({ behavior: "smooth", block: "center" });
+            el.classList.add("highlight");
+            setTimeout(() => {
+                el.classList.remove("highlight");
+            }, 1000);
+        })
+
         div.firstElementChild.prepend(reply_div);
     }
 
