@@ -23,6 +23,9 @@ const room_name_error_span = document.getElementById("room-name-error");
 const edit_box = document.getElementById("edit-box");
 const close_edit_box_btn = document.getElementById("edit-box-close-btn");
 
+const reply_box = document.getElementById("reply-box");
+const close_reply_box_btn = document.getElementById("reply-box-close-btn");
+
 const user_status_container = document.getElementById("user-status-container");
 const online_container = document.getElementById("online-container");
 const offline_container = document.getElementById("offline-container");
@@ -436,6 +439,19 @@ function hideEditBox(){
     edit_box.classList.remove("show");
     setTimeout(() => {
         edit_box.classList.add("disable");
+    }, 400);
+}
+
+function showReplyBox(){
+    reply_box.classList.remove("disable");
+    setTimeout(() => {
+        reply_box.classList.add("show");
+    }, 10);
+}
+function hidereplyBox(){
+    reply_box.classList.remove("show");
+    setTimeout(() => {
+        reply_box.classList.add("disable");
     }, 400);
 }
 
