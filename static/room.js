@@ -202,6 +202,7 @@ async function loadMessages(){
 }
 
 function addMessage(message, prepend = false){
+    console.log(message);
     const container = document.getElementById("messages");
 
     const message_container = document.createElement("div");
@@ -285,6 +286,7 @@ function sendMessage(){
 
     if(is_replied){
         socket.send(JSON.stringify({
+            type: "reply",
             content: message,
             reply_id: selected_message_id
         }));
