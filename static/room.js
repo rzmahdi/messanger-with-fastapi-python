@@ -232,7 +232,7 @@ function addMessage(message, prepend = false){
             reply_div_username.className = "message-reply-username";
             reply_div_text.className = "message-reply-text";
 
-            reply_div_username.textContent = message.replied_user.username;
+            reply_div_username.textContent = message.reply.user.username;
 
 
             reply_div_text.textContent = document.querySelector(`.message[data-message_id='${message.reply_id}'] p`).textContent;
