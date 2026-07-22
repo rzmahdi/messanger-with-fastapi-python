@@ -239,11 +239,11 @@ function addMessage(message, prepend = false){
     }
 
     message_container.addEventListener("dblclick", (e)=>{
-        selected_message_id = message.dataset.message_id;
         e.preventDefault();
         showReplyBox();
         hideEditBox();
         hideContextBox();
+        selected_message_id = message.id;
         reply_username_placeholder.textContent = `Reply To ${username}`;
         replied_message_content_placeholder.textContent = message.content;
     });
