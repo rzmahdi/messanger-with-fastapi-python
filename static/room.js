@@ -101,6 +101,7 @@ async function initRoom(){
 
     socket.onmessage = (e)=>{
         const data = JSON.parse(e.data);
+        console.log(data);
 
         if(data.type === "message"){
             const should_scroll = isNearBottom();
@@ -467,7 +468,6 @@ function showEditBox(){
 }
 function hideEditBox(){
     edit_box.classList.remove("show");
-    message_input.value = "";
     setTimeout(() => {
         edit_box.classList.add("disable");
     }, 400);
