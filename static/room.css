@@ -575,7 +575,7 @@ div.edit-room-name-box{
 }
 
 .edit-text-place-holder,
-.reply-text-place-holder{
+#reply-username-placeholder{
     padding: 5px;
     color: rgb(29, 163, 253);
     font-weight: bold;
