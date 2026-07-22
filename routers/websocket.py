@@ -40,8 +40,13 @@ async def handle_reply_message(data: dict, room_id: int, current_user, db):
             "room_id": room_id,
             "reply_id": reply_id,
             "created_at": str(new_message.created_at),
-            "user": {"id": current_user.id, "username": current_user.username},
-            "replied_user": {"id": replied_user.id, "username": replied_user.username}
+            "user": {"username": current_user.username},
+            "reply": {
+                "id": replied_user.id,
+                "user": {
+                    "username": replied_user.username
+                }
+            }
         },
     )
 
