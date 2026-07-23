@@ -175,5 +175,11 @@ notif_modal.addEventListener("click", (e)=>{
     }
 })
 
+create_room_modal.addEventListener("click", (e)=>{
+    if(e.target === create_room_modal){
+        hide_create_room_modal();
+    }
+})
+
 checkLogin();
 display_rooms();
