@@ -8,7 +8,7 @@ const message_context_delete_btn = document.getElementById("delete-message-btn")
 const chat_title_element = document.getElementById("chat-title");
 const chat_online_users_element = document.getElementById("chat-online-number");
 
-const chat_title_container = document.getElementById("chat-title-container");
+const room_action_button = document.getElementById("room-actions-dots");
 
 const room_context_box = document.getElementById("room-context-box");
 const room_context_edit_btn = document.getElementById("edit-room-btn");
@@ -728,7 +728,7 @@ edit_message_btn.addEventListener("click", async ()=>{
     editMessage();
 });
 
-chat_title_container.addEventListener("click", (e)=>{
+room_action_button.addEventListener("click", (e)=>{
     e.preventDefault();
     e.stopPropagation();
     hideContextBox();
