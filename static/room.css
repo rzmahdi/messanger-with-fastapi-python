@@ -125,7 +125,8 @@ body{
     box-shadow: 5px 5px 5px rgb(0, 0, 0, .3);
 }
 
-#messages .message-container.highlight{
+#messages .message-container.highlight,
+#messages .message-container.highlight .message{
     animation: highlight-flash 1s ease;
 }
 
