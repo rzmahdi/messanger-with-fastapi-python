@@ -279,11 +279,14 @@ function addMessage(message, prepend = false){
 
 
     const username = message.user.username;
+    message_container.dataset.username = username;
+
     if(username === current_user.sub){
         div.classList.add("me");
         message_container.classList.add("me");
     }else{
         const b = document.createElement("b");
+        b.className = "message-username";
         b.textContent = username;
         b.style.color = getUserColor(username);
         div.firstElementChild.prepend(b);
