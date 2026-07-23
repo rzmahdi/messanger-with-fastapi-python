@@ -368,6 +368,8 @@ function addMessage(message, prepend = false){
         container.appendChild(message_container);
     }
 
+    applyUsernameGrouping(message_container);
+
     return message_container;
 }
 
