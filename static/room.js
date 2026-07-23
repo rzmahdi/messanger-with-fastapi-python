@@ -221,8 +221,6 @@ function addMessage(message, prepend = false){
     `;
 
     if(message.reply_id){
-        const color = getUserColor(message.reply.user.username);
-
         const reply_div = document.createElement("div");
         const reply_div_username = document.createElement("p");
         const reply_div_text = document.createElement("p");
@@ -231,15 +229,24 @@ function addMessage(message, prepend = false){
         reply_div_username.className = "message-reply-username";
         reply_div_text.className = "message-reply-text";
 
-        reply_div_username.textContent = message.reply.user.username;
-        reply_div_username.style.color = color;
+        if(message.reply){
+            const color = getUserColor(message.reply.user.username);
 
-        reply_div.style.background = color + "25";
+            reply_div_username.textContent = message.reply.user.username;
+            reply_div_username.style.color = color;
 
-        reply_div.style.borderColor = color;
+            reply_div.style.background = color + "25";
+            reply_div.style.borderColor = color;
 
-        reply_div_text.textContent = message.reply.content;
-        reply_div_text.dir = "auto";
+            reply_div_text.textContent = message.reply.content;
+            reply_div_text.dir = "auto";
+        }else{
+            reply_div.classList.add("deleted");
+            reply_div_username.remove();
+
+            reply_div_text.textContent = "Message Deleted";
+            reply_div_text.dir = "auto";
+        }
 
         reply_div.appendChild(reply_div_username);
         reply_div.appendChild(reply_div_text);
@@ -247,6 +254,11 @@ function addMessage(message, prepend = false){
         reply_div.addEventListener("click", (e)=>{
             e.stopPropagation();
             hideContextBox();
+
+            if(!message.reply){
+                return;
+            }
+
             const target_el = document.querySelector(`[data-message_id='${message.reply_id}']`);
             
             if(!target_el){
