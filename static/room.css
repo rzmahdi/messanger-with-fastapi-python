@@ -47,6 +47,37 @@ body{
     gap: .3rem;
 }
 
+.room-header-container{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+#room-actions-dots{
+    background: rgba(255, 255, 255, .15);
+    color: rgb(230, 230, 230);
+
+    width: 40px;
+    padding: 10px;
+
+    text-align: center;
+
+    border-radius: 50px;
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    
+    cursor: pointer;
+    transition: .2s ease;
+}
+#room-actions-dots:hover{
+    background: rgba(255, 255, 255, .2)
+}
+#room-actions-dots:active{
+    background: rgba(255, 255, 255, .25)
+}
+
 #chat-container, #chat-title-container{
     width: 60%;
     height: 80vh;
@@ -65,7 +96,7 @@ body{
 }
 
 #chat-title-container{
-    width: 60%;
+    width: 58%;
     height: 50px;
     
     border: none;
@@ -716,6 +747,10 @@ div.edit-room-name-box{
 
 
 @media (max-width: 768px){
+    .room-header-container{
+        width: 95%;
+    }
+
     #chat-container{
         width: 95%;
         height: 80vh;
