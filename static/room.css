@@ -656,6 +656,16 @@ div.edit-room-name-box{
     background: rgba(255, 255, 255, 0.1);
 }
 
+.message-reply-container.deleted{
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.message-reply-container.deleted .message-reply-text{
+    color: rgba(255, 255, 255, 0.4);
+    font-style: italic;
+}
+
 .online-icon{
     color: rgb(0, 182, 182);
 }
@@ -688,6 +698,7 @@ div.edit-room-name-box{
 #offline-container.show{
     display: block;
 }
+
 
 @media (max-width: 768px){
     #chat-container{
