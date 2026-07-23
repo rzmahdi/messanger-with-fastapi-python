@@ -221,7 +221,6 @@ function addMessage(message, prepend = false){
     `;
 
     if(message.reply_id){
-        console.log(message);
         const color = getUserColor(message.reply.user.username);
 
         const reply_div = document.createElement("div");
