@@ -234,8 +234,7 @@ function addMessage(message, prepend = false){
         reply_div_username.textContent = message.reply.user.username;
         reply_div_username.style.color = color;
 
-        if(div.classList.contains("me"))
-            reply_div.style.background = color + "25";
+        reply_div.style.background = color + "25";
 
         reply_div.style.borderColor = color;
 
