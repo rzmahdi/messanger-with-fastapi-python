@@ -798,4 +798,9 @@ div.edit-room-name-box{
     #room-context-box{
         width: 100px;
     }
+
+    body{
+        justify-content: flex-start;
+        padding-top: 15px;
+    }
 }
