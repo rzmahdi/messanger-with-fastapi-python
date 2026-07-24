@@ -329,6 +329,10 @@ div.modal-notif-box span{
         width: 80%;
         padding: 10px;
     }
+
+    .modal-box {
+        width: 90%;
+    }
 }
 
 @media (max-width: 425px) {
