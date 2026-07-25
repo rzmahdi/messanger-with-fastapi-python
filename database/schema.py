@@ -54,7 +54,7 @@ class MessageResponseSchema(BaseModel):
     id: int
     content: str
     user_id: int
-    room_id: int
+    room_id: str
     reply_id: int | None
     created_at: datetime
     is_edited: bool
