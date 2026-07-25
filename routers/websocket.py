@@ -8,7 +8,7 @@ manager = ConnectionManager()
 router = APIRouter()
 
 
-async def handle_reply_message(data: dict, room_id: int, current_user, db):
+async def handle_reply_message(data: dict, room_id: str, current_user, db):
     content = data.get("content")
     if not content:
         return
@@ -52,7 +52,7 @@ async def handle_reply_message(data: dict, room_id: int, current_user, db):
     )
 
 
-async def handle_new_message(data: dict, room_id: int, current_user, db):
+async def handle_new_message(data: dict, room_id: str, current_user, db):
     content = data.get("content")
     if not content:
         return
@@ -83,7 +83,7 @@ async def handle_new_message(data: dict, room_id: int, current_user, db):
     )
 
 
-async def handle_delete_message(data: dict, room_id: int, current_user, db):
+async def handle_delete_message(data: dict, room_id: str, current_user, db):
     message_id = data.get("message_id")
     if not message_id:
         return
@@ -108,7 +108,7 @@ async def handle_delete_message(data: dict, room_id: int, current_user, db):
     )
 
 
-async def handle_edit_message(data: dict, room_id: int, current_user, db):
+async def handle_edit_message(data: dict, room_id: str, current_user, db):
     new_content = data.get("content")
     message_id = data.get("message_id")
 
@@ -139,7 +139,7 @@ async def handle_edit_message(data: dict, room_id: int, current_user, db):
     )
 
 
-async def handle_edit_room_name(data: dict, room_id: int, current_user, db):
+async def handle_edit_room_name(data: dict, room_id: str, current_user, db):
     new_room_name = data.get("name")
 
     if not room_id or not new_room_name:
@@ -190,7 +190,7 @@ async def handle_edit_room_name(data: dict, room_id: int, current_user, db):
     )
 
 
-async def handle_remove_room(data: dict, room_id: int, current_user, db):
+async def handle_remove_room(data: dict, room_id: str, current_user, db):
     if not room_id:
         return
     
@@ -221,7 +221,7 @@ async def handle_remove_room(data: dict, room_id: int, current_user, db):
 
 
 @router.websocket("/ws/{room_id}/messages")
-async def room_chat(websocket: WebSocket, room_id: int):
+async def room_chat(websocket: WebSocket, room_id: str):
     db = SessionLocal()
     token = websocket.query_params.get("token")
 
