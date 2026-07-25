@@ -1,5 +1,6 @@
 from database.database import Base
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Text, Boolean, Enum
+import uuid
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Text, Boolean, Enum, UUID
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
@@ -38,7 +39,7 @@ class User(Base):
 
 class Room(Base):
     __tablename__ = "rooms"
-    id = Column(Integer, autoincrement=True, primary_key=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String(50), unique=True, nullable=False)
     created_by = Column(Integer, ForeignKey("users.id"), nullable=False)
     created_at = Column(DateTime, default=datetime.now, nullable=False)
