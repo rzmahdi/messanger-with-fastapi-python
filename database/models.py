@@ -17,7 +17,7 @@ class User(Base):
 
     id = Column(Integer, autoincrement=True, primary_key=True)
     username = Column(String(40), unique=True, nullable=False)
-    password_hash = Column(String(200), nullable=False)
+    password_hash = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.now, nullable=False)
 
     security_question = Column(
@@ -30,7 +30,7 @@ class User(Base):
             ),
         nullable=False
     )
-    security_answer_hash = Column(String(50), nullable=False)
+    security_answer_hash = Column(Text, nullable=False)
 
     rooms = relationship("Room", back_populates="creator")
     messages = relationship("Message", back_populates="user")
