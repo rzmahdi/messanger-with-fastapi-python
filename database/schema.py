@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
-
+from uuid import UUID
 
 class UserBaseSchema(BaseModel):
     username: str
@@ -30,7 +30,7 @@ class Token(BaseModel):
     refresh_token: str
 
 class RoomResponseSchema(BaseModel):
-    id: int
+    id: UUID
     name: str
     created_by: int
     created_at: datetime
