@@ -11,7 +11,7 @@ from typing import List
 router = APIRouter()
 
 @router.get("/room/{room_id}/messages", response_model=List[MessageResponseSchema])
-def get_messages(room_id: int, limit: int = 20, before_id: int | None=None, db: Session=Depends(get_db)):
+def get_messages(room_id: str, limit: int = 20, before_id: int | None=None, db: Session=Depends(get_db)):
     if not room_exist(room_id, db):
         raise HTTPException(404, "Room does not exists!")
     
@@ -31,7 +31,7 @@ def get_messages(room_id: int, limit: int = 20, before_id: int | None=None, db: 
 
 @router.post("/room/{room_id}/messages", status_code=201)
 def send_message(
-    room_id: int,
+    room_id: str,
     request: MessageCreateSchema,
     current_user: User=Depends(get_current_user),
     db: Session=Depends(get_db)):
@@ -52,7 +52,7 @@ def send_message(
 
 @router.patch("/room/{room_id}/messages/{message_id}")
 def edit_message(
-    room_id: int,
+    room_id: str,
     message_id: int,
     request: MessageEditSchema,
     current_user: User=Depends(get_current_user),
@@ -79,7 +79,7 @@ def edit_message(
 
 @router.delete("/room/{room_id}/messages/{message_id}")
 def delete_message(
-    room_id: int,
+    room_id: str,
     message_id: int,
     current_user: User=Depends(get_current_user),
     db: Session=Depends(get_db)
