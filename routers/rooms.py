@@ -34,7 +34,7 @@ def create_room(request: RoomCreateSchema, user: User=Depends(get_current_user),
 @router.patch("/rooms/{room_id}")
 def edit_room(
     request: RoomEditSchema,
-    room_id: int,
+    room_id: str,
     user: User=Depends(get_current_user),
     db: Session=Depends(get_db)
     ):
