@@ -33,7 +33,7 @@ def user(request: Request):
     )
 
 @router.get("/rooms/{room_id}")
-def room_page(room_id: int, request: Request, db: Session=Depends(get_db)):
+def room_page(room_id: str, request: Request, db: Session=Depends(get_db)):
     if not room_exist(room_id, db):
         return page_404(request)
     
