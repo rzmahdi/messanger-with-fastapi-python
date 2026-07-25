@@ -54,7 +54,7 @@ class Message(Base):
     id = Column(Integer, autoincrement=True, primary_key=True)
     content = Column(Text, nullable=False)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    room_id = Column(Integer, ForeignKey("rooms.id", ondelete="CASCADE"), nullable=False)
+    room_id = Column(UUID(as_uuid=True), ForeignKey("rooms.id", ondelete="CASCADE"), nullable=False)
     created_at = Column(DateTime, default=datetime.now, nullable=False)
     is_edited = Column(Boolean, default=False, nullable=False)
     reply_id = Column(Integer, ForeignKey("messages.id"), nullable=True)
