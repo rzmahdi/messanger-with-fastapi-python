@@ -58,7 +58,7 @@ def edit_room(
 @router.delete("/rooms/{room_id}")
 async def delete_room(
     request: Request,
-    room_id: int,
+    room_id: str,
     user: User=Depends(get_current_user),
     db: Session=Depends(get_db)
     ):
