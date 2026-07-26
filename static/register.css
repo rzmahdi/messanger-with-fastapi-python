@@ -89,6 +89,7 @@ body{
 #register-empty-username,
 #register-password-invalid,
 #answer-empty-span,
+#register-empty-name,
 #question-invalid-span{
     display: none;
     color: red;
@@ -100,6 +101,7 @@ body{
 #register-empty-username.error,
 #register-password-invalid.error,
 #answer-empty-span.error,
+#register-empty-name.error,
 #question-invalid-span.error{
     display: block;
 }
