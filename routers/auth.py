@@ -37,7 +37,7 @@ def register(request: UserCreateSchema, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter_by(username=request.username).first()
     if existing_user:
         raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT, detail="user allready exists!"
+            status_code=status.HTTP_409_CONFLICT, detail="username already exists!"
         )
 
     if not request.security_question in SECURITY_QUESTIONS:
