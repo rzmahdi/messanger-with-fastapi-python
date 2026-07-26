@@ -4,6 +4,10 @@ from uuid import UUID
 
 class UserBaseSchema(BaseModel):
     username: str
+    display_name: str
+    bio: str | None = None
+    profile_pic: str | None = None
+
 
 class UserCreateSchema(UserBaseSchema):
     password: str
