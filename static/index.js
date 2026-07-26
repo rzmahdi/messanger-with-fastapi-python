@@ -99,7 +99,7 @@ async function display_rooms(room_name = null){
     div.innerHTML = `
             <div class="room-info">
                 <h3>${room.name}</h3>
-                <span>Created by ${room.creator.username}</span>
+                <span>Created by <a href="/profile/${room.creator.username}">@${room.creator.username}</a></span>
             </div>
 
             <span class="room-date">${formatDate(room.created_at)}</span>
