@@ -254,9 +254,9 @@ function addMessage(message, prepend = false){
         reply_div_text.className = "message-reply-text";
 
         if(message.reply){
-            const color = getUserColor(message.reply.user.username);
+            const color = getUserColor(message.reply.user.display_name);
 
-            reply_div_username.textContent = message.reply.user.username;
+            reply_div_username.textContent = message.reply.user.display_name;
             reply_div_username.style.color = color;
 
             reply_div.style.background = color + "25";
@@ -303,6 +303,7 @@ function addMessage(message, prepend = false){
 
 
     const username = message.user.username;
+    const display_name = message.user.display_name;
     message_container.dataset.username = username;
 
     if(username === current_user.sub){
@@ -311,8 +312,8 @@ function addMessage(message, prepend = false){
     }else{
         const b = document.createElement("b");
         b.className = "message-username";
-        b.textContent = username;
-        b.style.color = getUserColor(username);
+        b.textContent = display_name;
+        b.style.color = getUserColor(display_name);
         div.firstElementChild.prepend(b);
     }
 
