@@ -52,8 +52,12 @@ body{
     background-color: transparent;
 
     padding: 10px;
-    color: white;
+    color: rgb(197, 197, 197);
     cursor: pointer;
+}
+#back-btn:hover,
+#profile-edit-btn:hover{
+    color: white;
 }
 
 .pic-container{
