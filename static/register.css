@@ -34,7 +34,7 @@ body{
 
 #register-form{
     background-color: rgba(0, 128, 128, 0.26);
-    height: 70%;
+    height: 80%;
     width: 40%;
     display: flex;
     justify-content: center;
@@ -224,16 +224,12 @@ option::checkmark {
 
 
 @media (max-width: 768px){
-    #register-form{
-        width: 90%;
-    }
-
     div.register-modal-notif-box{
         width: 80%;
     }
 
     #register-form{
         width: 90%;
-        height: 90%;
+        height: 95%;
     }
 }
