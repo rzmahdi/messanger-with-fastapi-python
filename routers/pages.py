@@ -3,7 +3,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from services.room import room_exist
 from database.database import get_db
-from database.models import Room
+from database.models import Room, User
 from sqlalchemy.orm import Session
 
 router = APIRouter()
@@ -58,7 +58,10 @@ def reset_passwordd_page(request: Request, db: Session=Depends(get_db)):
 
 
 @router.get("/profile/{username}")
-def reset_passwordd_page(request: Request, username:str):
+def reset_passwordd_page(request: Request, username:str, db:Session=Depends(get_db)):
+    if not db.query(User).filter_by(username=username).first():
+        return page_404(request)
+
     return templates.TemplateResponse(
         name="profile.html",
         request=request,
