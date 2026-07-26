@@ -85,14 +85,14 @@ loadSecurityQuestions();
 
 register_form.addEventListener("submit", async (e)=>{
     e.preventDefault();
-    const name = document.getElementById("register-display-name").value;
+    const display_name = document.getElementById("register-display-name").value;
     const username = document.getElementById("register-username").value;
     const password = document.getElementById("register-password").value;
     const confirm_password = document.getElementById("register-confirm-password").value;
     const security_question = select.value;
     const security_answer = register_security_answer.value;
 
-    if(!name){
+    if(!display_name){
         register_empty_name_span.classList.add("error");
         return
     }else{
@@ -141,8 +141,8 @@ register_form.addEventListener("submit", async (e)=>{
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            name,
             username,
+            display_name,
             password,
             security_question,
             security_answer
