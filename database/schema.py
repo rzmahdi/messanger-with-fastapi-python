@@ -15,7 +15,8 @@ class UserCreateSchema(UserBaseSchema):
     security_answer: str
 
 
-class UserLoginSchema(UserBaseSchema):
+class UserLoginSchema(BaseModel):
+    username: str
     password: str
 
 class UserResponseSchema(UserBaseSchema):
