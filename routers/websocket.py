@@ -40,12 +40,13 @@ async def handle_reply_message(data: dict, room_id: str, current_user, db):
             "room_id": room_id,
             "reply_id": reply_id,
             "created_at": str(new_message.created_at),
-            "user": {"display_name": current_user.display_name,},
+            "user": {"display_name": current_user.display_name, "username": current_user.username},
             "reply": {
                 "id": replied_user.id,
                 "content": new_message.reply.content,
                 "user": {
                     "display_name": replied_user.display_name,
+                    "username": replied_user.username
                 }
             }
         },
@@ -78,7 +79,7 @@ async def handle_new_message(data: dict, room_id: str, current_user, db):
             "content": new_message.content,
             "room_id": room_id,
             "created_at": str(new_message.created_at),
-            "user": {"id": current_user.id, "display_name": current_user.display_name},
+            "user": {"id": current_user.id, "display_name": current_user.display_name, "username": current_user.username},
         },
     )
 
