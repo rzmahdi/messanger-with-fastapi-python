@@ -23,7 +23,8 @@ class UserResponseSchema(UserBaseSchema):
     id: int
     created_at: datetime
 
-class UserForgotPasswordSchema(UserBaseSchema):
+class UserForgotPasswordSchema(BaseModel):
+    username: str
     security_answer: str
 
 class UserResetPasswordSchema(BaseModel):
