@@ -18,6 +18,7 @@ class User(Base):
 
     id = Column(Integer, autoincrement=True, primary_key=True)
     username = Column(String(40), unique=True, nullable=False)
+    display_name = Column(String(40), nullable=False)
     password_hash = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.now, nullable=False)
 
