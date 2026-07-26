@@ -21,6 +21,7 @@ class User(Base):
     display_name = Column(String(40), nullable=False)
     password_hash = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.now, nullable=False)
+    bio = Column(String(70), nullable=True)
 
     security_question = Column(
         Enum(
