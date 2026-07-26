@@ -1,6 +1,7 @@
 const register_form = document.getElementById("register-form");
 const passwords_not_match_span = document.getElementById("passwords-not-match");
 const register_empty_username_span = document.getElementById("register-empty-username");
+const register_empty_name_span = document.getElementById("register-empty-name");
 const register_notif_modal = document.getElementById("register-modal-overlay-notif");
 const register_notif_text = document.getElementById("register-notif-modal-text");
 const register_password_invalid_span = document.getElementById("register-password-invalid");
@@ -69,11 +70,19 @@ loadSecurityQuestions();
 
 register_form.addEventListener("submit", async (e)=>{
     e.preventDefault();
+    const name = document.getElementById("register-display-name").value;
     const username = document.getElementById("register-username").value;
     const password = document.getElementById("register-password").value;
     const confirm_password = document.getElementById("register-confirm-password").value;
     const security_question = select.value;
     const security_answer = register_security_answer.value;
+
+    if(!name){
+        register_empty_name_span.classList.add("error");
+        return
+    }else{
+        register_empty_name_span.classList.remove("error");
+    }
 
     if(!username){
         register_empty_username_span.classList.add("error");
@@ -117,6 +126,7 @@ register_form.addEventListener("submit", async (e)=>{
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
+            name,
             username,
             password,
             security_question,
