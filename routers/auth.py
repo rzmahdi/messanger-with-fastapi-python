@@ -48,6 +48,7 @@ def register(request: UserCreateSchema, db: Session = Depends(get_db)):
 
     new_user = User(
         username=request.username,
+        display_name=request.display_name,
         password_hash=hash_password(request.password),
         security_question=request.security_question,
         security_answer_hash=hash_password(request.security_answer.strip().lower()),
