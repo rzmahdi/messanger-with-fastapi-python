@@ -9,7 +9,9 @@ class UserBaseSchema(BaseModel):
     profile_pic: str | None = None
 
 
-class UserCreateSchema(UserBaseSchema):
+class UserCreateSchema(BaseModel):
+    username: str
+    display_name: str
     password: str
     security_question: str
     security_answer: str
