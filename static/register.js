@@ -54,6 +54,21 @@ function close_notif(){
     register_notif_modal.classList.remove("show");
 }
 
+function showPasswordToggle(eye_id, input_id){
+    const eye_btn = document.getElementById(eye_id);
+    const input = document.getElementById(input_id);
+
+    eye_btn.addEventListener("click", ()=>{
+        const is_password = input.type === "password";
+        input.type = is_password ? "text" : "password";
+
+        eye_btn.querySelector(".bi-eye").classList.toggle("show", !is_password);
+        eye_btn.querySelector(".bi-eye-slash").classList.toggle("show", is_password);
+    })
+}
+showPasswordToggle("password-eye", "register-password");
+showPasswordToggle("confirm-password-eye", "register-confirm-password");
+
 
 async function loadSecurityQuestions(){
     const res = await fetch("/security_questions");
