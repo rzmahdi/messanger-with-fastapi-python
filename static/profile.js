@@ -137,6 +137,11 @@ profile_pic_element.addEventListener("click", ()=>{
     }
 })
 
+pic_overlay.addEventListener("click", ()=>{
+    profile_pic_element.classList.remove("show");
+    pic_overlay.classList.remove("show");
+})
+
 profile_edit_btn.addEventListener("click", ()=>{
     profile_container.classList.add("hide");
     edit_profile_container.classList.remove("hide");
