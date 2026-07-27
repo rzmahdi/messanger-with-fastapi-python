@@ -856,10 +856,15 @@ window.addEventListener("pagehide", () => {
     }
 });
 
-window.addEventListener("pageshow", (event)=>{
+window.addEventListener("pageshow", async (event)=>{
     if(event.persisted){
         if(!window.socket || socket.readyState === WebSocket.CLOSED){
-            initRoom();
+            const messages_container = document.getElementById("messages");
+            messages_container.innerHTML = "";
+            oldest_message_id = null;
+            
+            await initRoom();
+            await loadMessages();
         }
     }
 });
