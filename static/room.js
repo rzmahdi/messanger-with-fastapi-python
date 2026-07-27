@@ -847,6 +847,14 @@ window.addEventListener("pagehide", () => {
     }
 });
 
+window.addEventListener("pageshow", (event)=>{
+    if(event.persisted){
+        if(!window.socket || socket.readyState === WebSocket.CLOSED){
+            initRoom();
+        }
+    }
+});
+
 
 async function init(){
     await initRoom();
