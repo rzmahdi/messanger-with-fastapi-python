@@ -81,6 +81,16 @@ body{
     color: #77adff;
 }   
 
+#profile-image-container{
+    position: relative;
+}
+
+#user-first-letter{
+    position: absolute;
+    font-size: xx-large;
+    pointer-events: none;
+}
+
 #profile-img{
     width: 100px;
     height: 100px;
