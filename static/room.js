@@ -174,9 +174,18 @@ async function initRoom(){
     };
 }
 
+function hashUsername(username){
+    let hash = 0;
+    for(let i = 0; i < username.length; i++){
+        hash = username.charCodeAt(i) + ((hash << 5) - hash);
+        hash = hash & hash;
+    }
+    return Math.abs(hash);
+}
 
 function getUserColor(username){
-    return username_colors[username.charCodeAt()%username_colors.length];
+    const hash = hashUsername(username);
+    return username_colors[hash % username_colors.length];
 }
 
 
