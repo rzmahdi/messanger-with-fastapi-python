@@ -89,7 +89,7 @@ function getUserProfile(){
     if(profile_pic === "None"){
         getDefaultProfilePic();
     }else{
-        profile_pic_element.src = profile_pic;
+        profile_pic_element.src = `/${profile_pic}`;
     }
 }
 getUserProfile();

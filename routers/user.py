@@ -5,7 +5,7 @@ from fastapi import APIRouter, UploadFile, File, Depends, HTTPException
 from database.models import User
 from services.auth_service import get_db, get_current_user
 
-UPLOAD_DIR = "static/images/profile_pics"
+UPLOAD_DIR = "static/images/profile_pics/"
 ALLOWED_EXTENSIONS = {".jpeg", ".jpg", ".png", ".webp"}
 MAX_FILE_SIZE = 5 * 1024 * 1024
 
