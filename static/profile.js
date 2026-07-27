@@ -66,7 +66,7 @@ function getUserColor(){
 }
 
 function getDefaultProfilePic(){
-    user_color = getUserColor(username);
+    const user_color = getUserColor();
     profile_pic_element.style.backgroundColor = getUserColor(username);
     const span = document.createElement("span");
     span.id = "user-first-letter";
