@@ -33,6 +33,9 @@ class UserResetPasswordSchema(BaseModel):
     new_password: str
     reset_token: str
 
+class UserEditSchema(UserBaseSchema):
+    pass
+
 class Token(BaseModel):
     access_token: str
     refresh_token: str
