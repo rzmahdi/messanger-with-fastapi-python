@@ -161,3 +161,19 @@ body{
 #username-span:hover{
     text-decoration: underline;
 }
+
+#username-copy-modal{
+    width: fit-content;
+    background-color: rgba(255, 255, 255, 0.753);
+    position: fixed;
+    opacity: 0;
+    padding: 2px;
+    border-radius: 3px;
+    font-size: 12px;
+    pointer-events: none;
+
+    transition: opacity .4s ease;
+}
+#username-copy-modal.show{
+    opacity: 1;
+}
