@@ -131,8 +131,10 @@ username_span.addEventListener("click", async (e)=>{
 })
 
 profile_pic_element.addEventListener("click", ()=>{
-    profile_pic_element.classList.toggle("show");
-    pic_overlay.classList.toggle("show");
+    if(profile_pic !== "None"){
+        profile_pic_element.classList.toggle("show");
+        pic_overlay.classList.toggle("show");
+    }
 })
 
 profile_edit_btn.addEventListener("click", ()=>{
