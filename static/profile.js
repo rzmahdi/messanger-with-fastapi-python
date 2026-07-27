@@ -63,21 +63,21 @@ username_span.textContent = `@${username}`;
 
 function hashUsername(){
     let hash = 0;
-    for(let i = 0; i < username.length; i++){
-        hash = username.charCodeAt(i) + ((hash << 5) - hash);
+    for(let i = 0; i < display_name.length; i++){
+        hash = display_name.charCodeAt(i) + ((hash << 5) - hash);
         hash = hash & hash;
     }
     return Math.abs(hash);
 }
 
 function getUsernameColor(){
-    const hash = hashUsername(username);
+    const hash = hashUsername(display_name);
     return username_colors[hash % username_colors.length];
 }
 
 function getDefaultProfilePic(){
     const user_color = getUsernameColor();
-    profile_pic_element.style.backgroundColor = getUsernameColor(username);
+    profile_pic_element.style.backgroundColor = getUsernameColor();
     const span = document.createElement("span");
     span.id = "user-first-letter";
     span.textContent = username[0];
