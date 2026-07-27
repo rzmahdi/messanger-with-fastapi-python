@@ -71,10 +71,6 @@ function getDefaultProfilePic(){
     const span = document.createElement("span");
     span.id = "user-first-letter";
     span.textContent = username[0];
-    span.style.position = "absolute";
-    span.style.top = "25px";
-    span.style.left = "35px";
-    span.style.color = "black";
 
     image_wrapper.appendChild(span);
 }
