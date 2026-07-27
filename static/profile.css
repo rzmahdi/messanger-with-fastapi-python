@@ -33,6 +33,9 @@ body{
 
     overflow: hidden;
 }
+.profile-container.hide{
+    display: none;
+}
 
 .profile-container .top{
     background-color: #232e3c;
@@ -197,4 +200,140 @@ body{
 }
 #username-copy-modal.show{
     opacity: 1;
+}
+
+.edit-profile-container{
+    width: 95%;
+    max-width: 600px;
+    height: 95%;
+    max-height: 740px;
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+.edit-profile-container.hide{
+    display: none;
+}
+
+.edit-profile-container .top{
+    background-color: #232e3c;
+    width: 100%;
+    height: 50px;
+    border-radius: 10px 10px 0 0;
+    padding: 10px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+#close-edit-btn{
+    width: 30px;
+
+    background-color: transparent;
+    color: rgb(209, 209, 209);
+
+    border: none;
+    outline: none;
+    border-radius: 5px;
+
+    padding: 5px;
+    cursor: pointer;
+
+    font-size: 16px;
+    transition: .2s ease;
+}
+
+#close-edit-btn:hover{
+    color: white;
+}
+
+#close-edit-btn:active{
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+input[type="text"]{
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+input[type="text"]::placeholder{
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 16px;
+    transition: .2s ease;
+}
+
+input[type="text"]:focus::placeholder{
+    font-size: 14px;
+    transform: translate(0, -10px);
+}
+
+input[type="file"]::file-selector-button {
+    border-radius: 4px;
+    padding: 0 16px;
+    height: 40px;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+    margin-right: 16px;
+    transition: .2s ease;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: #f3f4f6;
+}
+
+input[type="file"]::file-selector-button:active {
+    background-color: #e5e7eb;
+    scale: .95;
+}
+
+.container.f{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.profile_pic_span{
+    cursor: default;
+}
+
+input[type="button"]{
+    border-radius: 4px;
+    padding: 0 16px;
+    width: 100%;
+    height: 40px;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+    margin-right: 16px;
+    transition: .2s ease;
+    font-weight: bold;
+}
+
+input[type="button"]:hover{
+    background-color: rgba(255, 255, 255, 0.85);
+}
+
+span.error{
+    display: block;
+    color: red;
+    align-self: center;
+    margin-top: 5px;
+    font-weight: bold;
+}
+span.hide{
+    display: none;
 }
