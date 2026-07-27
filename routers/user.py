@@ -3,7 +3,9 @@ import uuid
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, UploadFile, File, Depends, HTTPException
 from database.models import User
+from database.schema import UserEditSchema, UserResponseSchema
 from services.auth_service import get_db, get_current_user
+
 
 UPLOAD_DIR = "static/images/profile_pics/"
 ALLOWED_EXTENSIONS = {".jpeg", ".jpg", ".png", ".webp"}
@@ -41,3 +43,36 @@ async def upload_profile_pic(
     db.refresh(current_user)
 
     return {"profile_pic": current_user.profile_pic}
+
+
+@router.put("/profile/{username}", response_model=UserResponseSchema)
+def edit_user_info(
+    request: UserEditSchema,
+    username: str,
+    current_user: User=Depends(get_current_user),
+    db: Session=Depends(get_db)
+):
+    if username != current_user.username:
+        raise HTTPException(403, "You do not have the permission!")
+
+    if not request.username:
+        raise HTTPException(400, "this filed can't be empty!")
+    if not request.display_name:
+        raise HTTPException(400, "this filed can't be empty!")
+    if not request.bio:
+        raise HTTPException(400, "this filed can't be empty!")
+
+    requested_username = db.query(User).filter_by(username=request.username).first().username
+    if requested_username and requested_username != current_user.username:
+        raise HTTPException(409, "username already exists!")
+
+    if len(request.bio) > 70:
+        raise HTTPException(400, "this filed can't be more than 70 char!")
+
+    current_user.username = request.username
+    current_user.display_name = request.display_name
+    current_user.bio = request.bio
+
+    db.commit()
+    db.refresh(current_user)
+    return current_user
