@@ -43,7 +43,10 @@ const username_span = document.getElementById("username-span");
 const username_copy_modal = document.getElementById("username-copy-modal");
 const profile_edit_btn = document.getElementById("profile-edit-btn");
 const profile_dot_btn = document.getElementById("profile-doted-btn");
+const close_profile_container_btn = document.getElementById("close-edit-btn");
 
+const profile_container = document.getElementById("profile-container");
+const edit_profile_container = document.getElementById("edit-profile-container");
 
 const username_colors = [
     "#ffae00",
@@ -124,4 +127,14 @@ username_span.addEventListener("click", async (e)=>{
     }catch (error){
         console.error("failed to copy! ", error);
     }
+})
+
+profile_edit_btn.addEventListener("click", ()=>{
+    profile_container.classList.add("hide");
+    edit_profile_container.classList.remove("hide");
+})
+
+close_profile_container_btn.addEventListener("click", ()=>{
+    profile_container.classList.remove("hide");
+    edit_profile_container.classList.add("hide");
 })
