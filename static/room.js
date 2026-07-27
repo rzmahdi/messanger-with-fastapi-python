@@ -53,6 +53,7 @@ let oldest_message_id = null;
 let selected_message_id = null;
 let is_editing = null;
 let is_replied = null;
+let is_initializing_room = false;
 
 chat_title_element.textContent = room_name;
 
@@ -92,86 +93,97 @@ function isSocketReady(){
 
 
 async function initRoom(){
-    await checkLogin();
+    if(is_initializing_room) return;
+    is_initializing_room = true;
 
-    const fresh_token = localStorage.getItem("access_token");
+    try{
+        await checkLogin();
 
-    window.socket = new WebSocket(
-        `ws://${window.location.host}/ws/${room_id}/messages?token=${fresh_token}`
-    );
-
-    socket.onmessage = (e)=>{
-        const data = JSON.parse(e.data);
-
-        if(data.type === "message"){
-            const should_scroll = isNearBottom();
-            addMessage(data);
-            if(should_scroll) scrollToBottom();
+        if(window.socket && (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING)){
+            socket.close();
         }
-
-        if(data.type == "edit"){
-            updateMessageInDOM(data.content, data.id);
-        }
-
-        if(data.type == "delete"){
-            deleteMessageInDOM(data.message_id);
-        }
-
-        if(data.type === "join"){
-            chat_online_users_element.textContent = `${data.online_user_count} online`;
-        }
-
-        if(data.type === "leave"){
-            chat_online_users_element.textContent = `${data.online_user_count} online`;
-        }
-
-        if(data.type === "room_deleted"){
-            alert("This room has been deleted by the owner.");
-            window.location.href = "/";
-        }
-
-        if(data.type === "room_edit_name"){
-            renameRoomInDOM(data.new_name);
-        }
-
-
-        if(data.type === "error"){
-            if(data.scope === "rename_room"){
-                if(data.status === "409"){
-                    hideErrorSpan();
-                    showErrorSpan(data.content);
-                }
-
-                if(data.status === "403"){
-                    hideErrorSpan();
-                    showErrorSpan(data.content);
-                }
-            }else if(data.scope === "delete_room"){
-                if(data.status === "403"){
-                    alert(data.content);
-                    hideContextBox();
+        
+        const fresh_token = localStorage.getItem("access_token");
+        
+        window.socket = new WebSocket(
+            `ws://${window.location.host}/ws/${room_id}/messages?token=${fresh_token}`
+        );
+        
+        socket.onmessage = (e)=>{
+            const data = JSON.parse(e.data);
+            
+            if(data.type === "message"){
+                const should_scroll = isNearBottom();
+                addMessage(data);
+                if(should_scroll) scrollToBottom();
+            }
+            
+            if(data.type == "edit"){
+                updateMessageInDOM(data.content, data.id);
+            }
+            
+            if(data.type == "delete"){
+                deleteMessageInDOM(data.message_id);
+            }
+            
+            if(data.type === "join"){
+                chat_online_users_element.textContent = `${data.online_user_count} online`;
+            }
+            
+            if(data.type === "leave"){
+                chat_online_users_element.textContent = `${data.online_user_count} online`;
+            }
+            
+            if(data.type === "room_deleted"){
+                alert("This room has been deleted by the owner.");
+                window.location.href = "/";
+            }
+            
+            if(data.type === "room_edit_name"){
+                renameRoomInDOM(data.new_name);
+            }
+            
+            
+            if(data.type === "error"){
+                if(data.scope === "rename_room"){
+                    if(data.status === "409"){
+                        hideErrorSpan();
+                        showErrorSpan(data.content);
+                    }
+                    
+                    if(data.status === "403"){
+                        hideErrorSpan();
+                        showErrorSpan(data.content);
+                    }
+                }else if(data.scope === "delete_room"){
+                    if(data.status === "403"){
+                        alert(data.content);
+                        hideContextBox();
+                    }
                 }
             }
-        }
-    };
-
-    socket.onclose = ()=>{
-        hideUserStatus();
-        hideOnlineStatus();
-        setTimeout(() => {
-            showOfflineStatus();
-            showUserStatus();
-        }, 10);
-    };
-
-    socket.onopen = ()=>{
-        hideUserStatus();
-        hideOfflineStatus();
-        setTimeout(() => {
-            showOnlineStatus();
-            showUserStatus();
-        }, 10);
-    };
+        };
+        
+        socket.onclose = ()=>{
+            hideUserStatus();
+            hideOnlineStatus();
+            setTimeout(() => {
+                showOfflineStatus();
+                showUserStatus();
+            }, 10);
+        };
+        
+        socket.onopen = ()=>{
+            hideUserStatus();
+            hideOfflineStatus();
+            setTimeout(() => {
+                showOnlineStatus();
+                showUserStatus();
+            }, 10);
+        };
+    } finally{
+        is_initializing_room = false;
+    }
 }
 
 function hashUsername(username){
