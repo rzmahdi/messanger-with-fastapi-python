@@ -1,3 +1,39 @@
+function redirect_to_login(){
+    window.location.href = "/login";
+}
+
+async function checkLogin(){
+    const token = await getValidToken();
+
+    if(!token){
+        redirect_to_login();
+        return
+    }
+
+    const response = await fetch("/me", {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+
+    if(response.status === 401){
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        redirect_to_login();
+        return
+    }
+
+    if(response.ok){
+        const res = await response.json();
+        const current_user = res.username;
+
+        if(current_user===username){
+            showEditBtn();
+        }
+    }
+}
+checkLogin();
+
 const profile_pic_element = document.getElementById("profile-img");
 const image_wrapper = document.getElementById("profile-image-container");
 const back_btn = document.getElementById("back-btn");
@@ -5,6 +41,9 @@ const profile_display_name = document.getElementById("profile-display-name");
 const profile_bio = document.getElementById("user-bio");
 const username_span = document.getElementById("username-span");
 const username_copy_modal = document.getElementById("username-copy-modal");
+const profile_edit_btn = document.getElementById("profile-edit-btn");
+const profile_dot_btn = document.getElementById("profile-doted-btn");
+
 
 const username_colors = [
     "#ffae00",
@@ -56,6 +95,11 @@ function showCopyUsernameModal(x, y){
     setTimeout(() => {
         username_copy_modal.classList.remove("show");
     }, 1000);
+}
+
+function showEditBtn(){
+    profile_edit_btn.classList.add("show");
+    profile_dot_btn.classList.add("hide");
 }
 
 
