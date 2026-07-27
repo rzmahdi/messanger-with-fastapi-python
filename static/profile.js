@@ -41,6 +41,7 @@ const profile_display_name = document.getElementById("profile-display-name");
 const profile_bio = document.getElementById("user-bio");
 const username_span = document.getElementById("username-span");
 const username_copy_modal = document.getElementById("username-copy-modal");
+const pic_overlay = document.getElementById("pic-overlay");
 const profile_edit_btn = document.getElementById("profile-edit-btn");
 const profile_dot_btn = document.getElementById("profile-doted-btn");
 const close_profile_container_btn = document.getElementById("close-edit-btn");
@@ -127,6 +128,11 @@ username_span.addEventListener("click", async (e)=>{
     }catch (error){
         console.error("failed to copy! ", error);
     }
+})
+
+profile_pic_element.addEventListener("click", ()=>{
+    profile_pic_element.classList.toggle("show");
+    pic_overlay.classList.toggle("show");
 })
 
 profile_edit_btn.addEventListener("click", ()=>{
