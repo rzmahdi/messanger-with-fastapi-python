@@ -33,8 +33,10 @@ class UserResetPasswordSchema(BaseModel):
     new_password: str
     reset_token: str
 
-class UserEditSchema(UserBaseSchema):
-    pass
+class UserEditSchema(BaseModel):
+    username: str
+    display_name: str
+    bio: str | None = None
 
 class Token(BaseModel):
     access_token: str
