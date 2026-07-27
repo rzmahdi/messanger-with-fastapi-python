@@ -1,4 +1,3 @@
-const display_username = document.getElementById("display-username");
 const rooms_container = document.getElementById("rooms-container");
 const logout_btn = document.getElementById("logout");
 const show_create_modal_room_btn = document.getElementById("create-room-btn");
@@ -67,12 +66,6 @@ async function checkLogin(){
         localStorage.removeItem("refresh_token");
         redirect_to_login();
         return
-    }
-
-    if(response.ok){
-        const user = await response.json();
-        display_username.textContent = user.username;
-        return true
     }
 }
 
