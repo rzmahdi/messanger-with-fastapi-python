@@ -225,6 +225,10 @@ function applyUsernameGrouping(message_container_el){
     }
 }
 
+function userProfile(username){
+    window.location.href = `/profile/${username}`;
+}
+
 function addMessage(message, prepend = false){
     const container = document.getElementById("messages");
 
@@ -314,6 +318,10 @@ function addMessage(message, prepend = false){
         b.className = "message-username";
         b.textContent = display_name;
         b.style.color = getUserColor(display_name);
+        b.style.cursor = "pointer";
+        b.addEventListener("click", ()=>{
+            userProfile(username);
+        });
         div.firstElementChild.prepend(b);
     }
 
