@@ -2,7 +2,7 @@ const profile_pic_element = document.getElementById("profile-img");
 const image_wrapper = document.getElementById("profile-image-container");
 const back_btn = document.getElementById("back-btn");
 const profile_display_name = document.getElementById("profile-display-name");
-
+const profile_bio = document.getElementById("user-bio");
 
 const username_colors = [
     "#ffae00",
@@ -17,7 +17,7 @@ const username_colors = [
 
 
 profile_display_name.textContent = display_name;
-
+profile_bio.textContent = bio!=="None" ? bio : "";
 
 function getUserColor(){
     return username_colors[username.charCodeAt()%username_colors.length];
