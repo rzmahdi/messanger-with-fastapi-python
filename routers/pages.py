@@ -59,14 +59,19 @@ def reset_passwordd_page(request: Request, db: Session=Depends(get_db)):
 
 @router.get("/profile/{username}")
 def reset_passwordd_page(request: Request, username:str, db:Session=Depends(get_db)):
-    if not db.query(User).filter_by(username=username).first():
+    user = db.query(User).filter_by(username=username).first()
+    if not user:
         return page_404(request)
 
     return templates.TemplateResponse(
         name="profile.html",
         request=request,
         context={
-            "username": username
+            "username": user.username,
+            "display_name": user.display_name,
+            "profile_pic": user.profile_pic,
+            "bio": user.bio,
+            
         }
     )
 
