@@ -1,5 +1,6 @@
 const profile_pic_element = document.getElementById("profile-img");
 const image_wrapper = document.getElementById("profile-image-container");
+const back_btn = document.getElementById("back-btn");
 
 const username_colors = [
     "#ffae00",
@@ -39,3 +40,8 @@ function getUserProfile(){
 }
 
 getUserProfile();
+
+
+back_btn.addEventListener("click", ()=>{
+    window.location.href = "/";
+});
