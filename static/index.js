@@ -1,3 +1,4 @@
+const user_icon_btn = document.getElementById("user-icon");
 const rooms_container = document.getElementById("rooms-container");
 const logout_btn = document.getElementById("logout");
 const show_create_modal_room_btn = document.getElementById("create-room-btn");
@@ -66,6 +67,14 @@ async function checkLogin(){
         localStorage.removeItem("refresh_token");
         redirect_to_login();
         return
+    }
+
+    if(response.ok){
+        const user = await response.json();
+        user_icon_btn.addEventListener("click", ()=>{
+            window.location.href = `/profile/${user.username}`
+        })
+        return true
     }
 }
 
