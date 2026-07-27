@@ -48,10 +48,18 @@ header{
     justify-content: space-between;
 }
 
-#display-username{
-    color: white;
-    margin: 0 2rem;
+#user-icon{
+    color: rgb(212, 212, 212);
+    margin: 0 1rem;
+    background-color: transparent;
+    border: none;
+    outline: none;
     font-size: large;
+    cursor: pointer;
+}
+
+#user-icon:hover{
+    color: white;
 }
 
 a{
