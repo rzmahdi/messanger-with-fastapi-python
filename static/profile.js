@@ -104,7 +104,11 @@ function showEditBtn(){
 
 
 back_btn.addEventListener("click", ()=>{
-    window.location.href = "/";
+    if(document.referrer && document.referrer.includes(window.location.hostname)){
+        history.back();
+    }else{
+        window.location.href = "/";
+    }
 });
 
 username_span.addEventListener("click", async (e)=>{
