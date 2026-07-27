@@ -70,9 +70,25 @@ class ConnectionManager:
         if room_id not in self.active_connections:
             return
 
-        for user in self.active_connections[room_id].values():
-            for connection in user["connections"]:
-                await connection.send_json(jsonable_encoder(message))
+        dead_connections = []
+
+        for user_id, user_data in self.active_connections[room_id].items():
+            for connection in user_data["connections"]:
+                try:
+                    await connection.send_json(message)
+                except Exception:
+                    dead_connections.append((user_id, connection))
+
+        for user_id, connection in dead_connections:
+            if room_id in self.active_connections and user_id in self.active_connections[room_id]:
+                connections = self.active_connections[room_id][user_id]["connections"]
+                if connection in connections:
+                    connections.remove(connection)
+                if not connections:
+                    del self.active_connections[room_id][user_id]
+
+        if room_id in self.active_connections and not self.active_connections[room_id]:
+            del self.active_connections[room_id]
     
 
     async def send_to_user(self, room_id: int, user_id: int, message: dict[str, Any]):
