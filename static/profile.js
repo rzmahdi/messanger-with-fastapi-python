@@ -117,6 +117,11 @@ function showEditBtn(){
     profile_dot_btn.classList.add("hide");
 }
 
+function showError(el, error){
+    el.classList.remove("hide");
+    el.textContent = error;
+}
+
 
 back_btn.addEventListener("click", ()=>{
     if(document.referrer && document.referrer.includes(window.location.hostname)){
