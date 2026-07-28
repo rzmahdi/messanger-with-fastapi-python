@@ -129,6 +129,11 @@ function hideError(el){
     el.classList.add("hide");
 }
 
+function nameVlidation(name){
+    const pattern = /^[a-zA-Z][a-zA-Z0-9_]{2,14}$/;
+    return pattern.test(name);
+}
+
 
 back_btn.addEventListener("click", ()=>{
     if(document.referrer && document.referrer.includes(window.location.hostname)){
