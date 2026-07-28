@@ -189,6 +189,9 @@ edit_btn.addEventListener("click", async ()=>{
     if(display_name_value.length === 0){
         showError(error_displayname, "name cant be empty!");
         is_valid = false;
+    }else if(display_name_value.length > 40){
+        showError(error_displayname, "cant be more than 40 char!");
+        is_valid = false;
     }else if(!nameVlidation(display_name_value)){
         showError(error_displayname, "name muste be between 3 and 16 characters long and do not start with number!");
         is_valid = false;
