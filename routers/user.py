@@ -65,7 +65,7 @@ def edit_user_info(
         raise HTTPException(409, "username already exists!")
 
     if len(request.bio) > 70:
-        raise HTTPException(400, "this filed can't be more than 70 char!")
+        raise HTTPException(400, "bio can't be more than 70 char!")
 
     if len(request.display_name) > 40:
         raise HTTPException(400, "display name can't be more than 40 char!")
