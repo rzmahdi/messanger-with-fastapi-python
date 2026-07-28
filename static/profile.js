@@ -54,6 +54,10 @@ const username_input = document.getElementById("username-input");
 const bio_input = document.getElementById("bio-input");
 const edit_btn = document.getElementById("edit-btn");
 
+const error_displayname = document.getElementById("edit-display-name-error-span");
+const error_username = document.getElementById("edit-username-error-span");
+const error_bio = document.getElementById("edit-bio-error-span");
+
 const username_colors = [
     "#ffae00",
     "#ff6b6b",
@@ -120,6 +124,9 @@ function showEditBtn(){
 function showError(el, error){
     el.classList.remove("hide");
     el.textContent = error;
+}
+function hideError(el){
+    el.classList.add("hide");
 }
 
 
