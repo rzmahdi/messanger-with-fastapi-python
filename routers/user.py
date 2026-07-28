@@ -67,6 +67,9 @@ def edit_user_info(
     if len(request.bio) > 70:
         raise HTTPException(400, "this filed can't be more than 70 char!")
 
+    if len(request.display_name) > 40:
+        raise HTTPException(400, "display name can't be more than 40 char!")
+
     current_user.username = request.username
     current_user.display_name = request.display_name
     current_user.bio = request.bio
