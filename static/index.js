@@ -1,4 +1,4 @@
-const user_icon_btn = document.getElementById("user-icon");
+const user_pic = document.getElementById("profile-img");
 const rooms_container = document.getElementById("rooms-container");
 const logout_btn = document.getElementById("logout");
 const show_create_modal_room_btn = document.getElementById("create-room-btn");
@@ -71,7 +71,8 @@ async function checkLogin(){
 
     if(response.ok){
         const user = await response.json();
-        user_icon_btn.addEventListener("click", ()=>{
+        user_pic.src = user.profile_pic;
+        user_pic.addEventListener("click", ()=>{
             window.location.href = `/profile/${user.username}`
         })
         return true
