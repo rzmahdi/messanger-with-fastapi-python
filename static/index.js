@@ -134,7 +134,7 @@ function getUsernameColor(display_name){
     return username_colors[hash % username_colors.length];
 }
 
-function getDefaultProfilePic(display_name){
+function getDefaultProfilePic(display_name, username){
     const user_color = getUsernameColor(display_name);
     image_wrapper.style.backgroundColor = user_color;
     image_wrapper.classList.add("pic");
@@ -142,6 +142,9 @@ function getDefaultProfilePic(display_name){
     span.id = "user-first-letter";
     span.textContent = display_name[0];
     image_wrapper.appendChild(span);
+    image_wrapper.addEventListener("click", ()=>{
+        window.location.href = `/profile/${username}`;
+    })
 }
 
 async function getUserProfile(){
@@ -156,14 +159,14 @@ async function getUserProfile(){
 
     if(user.profile_pic === null){
         user_pic.remove();
-        getDefaultProfilePic(user.display_name);
+        getDefaultProfilePic(user.display_name, user.username);
     }else{
         user_pic.src = `/${user.profile_pic}`;
+        user_pic.addEventListener("click", ()=>{
+            window.location.href = `/profile/${user.username}`;
+        })
     }
 
-    user_pic.addEventListener("click", ()=>{
-        window.location.href = `/profile/${user.username}`;
-    })
 }
 
 search_room_input.addEventListener("input", async (e)=>{
