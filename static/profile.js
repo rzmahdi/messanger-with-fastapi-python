@@ -49,6 +49,11 @@ const close_profile_container_btn = document.getElementById("close-edit-btn");
 const profile_container = document.getElementById("profile-container");
 const edit_profile_container = document.getElementById("edit-profile-container");
 
+const display_name_input = document.getElementById("display-name-input");
+const username_input = document.getElementById("username-input");
+const bio_input = document.getElementById("bio-input");
+const edit_btn = document.getElementById("edit-btn");
+
 const username_colors = [
     "#ffae00",
     "#ff6b6b",
@@ -145,6 +150,10 @@ pic_overlay.addEventListener("click", ()=>{
 profile_edit_btn.addEventListener("click", ()=>{
     profile_container.classList.add("hide");
     edit_profile_container.classList.remove("hide");
+
+    username_input.value = username;
+    display_name_input.value = display_name;
+    bio_input.value = bio;
 })
 
 close_profile_container_btn.addEventListener("click", ()=>{
