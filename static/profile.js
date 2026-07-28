@@ -134,6 +134,10 @@ function userNameVlidation(name){
     const pattern = /^[a-zA-Z][a-zA-Z0-9_]{2,14}$/;
     return pattern.test(name);
 }
+function nameVlidation(name){
+    const pattern = /^[a-zA-Z0-9_\-\s\u0600-\u06FF\u200C]{3,40}$/;
+    return pattern.test(name);
+}
 
 
 back_btn.addEventListener("click", ()=>{
@@ -192,7 +196,7 @@ edit_btn.addEventListener("click", async ()=>{
     }else if(display_name_value.length > 40){
         showError(error_displayname, "cant be more than 40 char!");
         is_valid = false;
-    }else if(!userNameVlidation(display_name_value)){
+    }else if(!nameVlidation(display_name_value)){
         showError(error_displayname, "name muste be between 3 and 16 characters long and do not start with number!");
         is_valid = false;
     }
