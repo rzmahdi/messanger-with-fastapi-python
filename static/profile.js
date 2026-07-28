@@ -94,7 +94,7 @@ function getDefaultProfilePic(){
     profile_pic_element.style.backgroundColor = user_color;
     const span = document.createElement("span");
     span.id = "user-first-letter";
-    span.textContent = username[0];
+    span.textContent = display_name[0];
 
     image_wrapper.appendChild(span);
 }
