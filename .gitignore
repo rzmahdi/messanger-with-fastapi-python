@@ -1,0 +1,4 @@
+.venv
+*.db
+database/__pycache__
+static/images/profile_pics
