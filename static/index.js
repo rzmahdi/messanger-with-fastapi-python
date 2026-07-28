@@ -136,11 +136,11 @@ function getUsernameColor(display_name){
 
 function getDefaultProfilePic(display_name){
     const user_color = getUsernameColor(display_name);
-    user_pic.style.backgroundColor = user_color;
+    image_wrapper.style.backgroundColor = user_color;
+    image_wrapper.classList.add("pic");
     const span = document.createElement("span");
     span.id = "user-first-letter";
     span.textContent = display_name[0];
-
     image_wrapper.appendChild(span);
 }
 
@@ -155,6 +155,7 @@ async function getUserProfile(){
     const user = await user_response.json();
 
     if(user.profile_pic === null){
+        user_pic.remove();
         getDefaultProfilePic(user.display_name);
     }else{
         user_pic.src = `/${user.profile_pic}`;
