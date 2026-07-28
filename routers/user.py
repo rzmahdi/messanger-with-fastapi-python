@@ -60,8 +60,8 @@ def edit_user_info(
     if not request.display_name:
         raise HTTPException(400, "this filed can't be empty!")
 
-    requested_username = db.query(User).filter_by(username=request.username).first().username
-    if requested_username and requested_username != current_user.username:
+    existing_user = db.query(User).filter_by(username=request.username).first()
+    if existing_user and existing_user.id != current_user.id:
         raise HTTPException(409, "username already exists!")
 
     if len(request.bio) > 70:
