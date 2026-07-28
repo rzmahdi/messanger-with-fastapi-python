@@ -65,6 +65,30 @@ body{
     gap: 5px;
 }
 
+#back-btn{
+    background: rgba(255, 255, 255, .15);
+    color: rgb(230, 230, 230);
+
+    padding: 10px;
+
+    backdrop-filter: blur(10px);
+
+    text-align: center;
+
+    border-radius: 50px;
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    
+    cursor: pointer;
+    transition: .2s ease;
+}
+#back-btn:hover{
+    background: rgba(255, 255, 255, .2)
+}
+#back-btn:active{
+    background: rgba(255, 255, 255, .25)
+}
+
 #room-actions-dots{
     background: rgba(255, 255, 255, .15);
     color: rgb(230, 230, 230);
