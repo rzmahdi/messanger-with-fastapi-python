@@ -59,8 +59,6 @@ def edit_user_info(
         raise HTTPException(400, "this filed can't be empty!")
     if not request.display_name:
         raise HTTPException(400, "this filed can't be empty!")
-    if not request.bio:
-        raise HTTPException(400, "this filed can't be empty!")
 
     requested_username = db.query(User).filter_by(username=request.username).first().username
     if requested_username and requested_username != current_user.username:
