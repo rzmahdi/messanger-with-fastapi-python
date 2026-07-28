@@ -52,6 +52,7 @@ const edit_profile_container = document.getElementById("edit-profile-container")
 const display_name_input = document.getElementById("display-name-input");
 const username_input = document.getElementById("username-input");
 const bio_input = document.getElementById("bio-input");
+const pic_input = document.getElementById("pic");
 const edit_btn = document.getElementById("edit-btn");
 
 const error_displayname = document.getElementById("edit-display-name-error-span");
@@ -176,4 +177,96 @@ profile_edit_btn.addEventListener("click", ()=>{
 close_profile_container_btn.addEventListener("click", ()=>{
     profile_container.classList.remove("hide");
     edit_profile_container.classList.add("hide");
+})
+
+edit_btn.addEventListener("click", async ()=>{
+    const display_name_value = display_name_input.value;
+    const username_value = username_input.value;
+    const bio_value = bio_input.value;
+
+    let is_valid = true;
+
+    if(display_name_value.length === 0){
+        showError(error_displayname, "name cant be empty!");
+        is_valid = false;
+    }else if(!nameVlidation(display_name_value)){
+        showError(error_displayname, "name muste be between 3 and 16 characters long and do not start with number!");
+        is_valid = false;
+    }
+    else{
+        hideError(error_displayname);
+    }
+    
+
+    if(username_value.length === 0){
+        showError(error_username, "username cant be empty!");
+        is_valid = false;
+    }else if(!nameVlidation(username_value)){
+        showError(error_username, "name muste be between 3 and 16 characters long and do not start with number!");
+        is_valid = false;
+    }
+    else{
+        hideError(error_username);
+    }
+    
+
+    if(bio_value.length > 70){
+        showError(error_bio, "bio cant be more than 70!");
+        is_valid = false;
+    }else{
+        hideError(error_bio);
+    }
+
+    if(!is_valid) return;
+
+    const token = await getValidToken();
+    if(!token){
+        redirect_to_login();
+        return;
+    }
+
+    if(pic_input.files.length > 0){
+        const form_data = new FormData();
+        form_data.append("file", pic_input.files[0]);
+
+        const pic_response = await fetch("/me/profile-pic", {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            body: form_data
+        });
+
+        if(!pic_response.ok){
+            const pic_error = await pic_response.json();
+            alert(error.detail || "failed to upload profile picture!");
+            return;
+        }
+    }
+
+    const response = await fetch(`/profile/${username}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            username: username_value,
+            display_name: display_name_value,
+            bio: bio_value
+        })
+    });
+
+    if(response.ok){
+        if(username_value != username){
+            window.location.href = `/profile/${username_value}`;
+            return;
+        }
+        window.location.reload();
+    }else if(response.status === 409){
+        showError(error_username, "username already exists!");
+    }else{
+        const error = await response.json();
+        alert(error.detail || "failed to update profile!");
+    }
 })
