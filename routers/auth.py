@@ -6,7 +6,8 @@ from database.schema import (
     Token,
     RefreshTokenSchema,
     UserForgotPasswordSchema,
-    UserResetPasswordSchema
+    UserResetPasswordSchema,
+    UserResponseSchema
 )
 from database.database import get_db
 from database.models import User
@@ -91,7 +92,7 @@ def refresh_token_endpoint(request: RefreshTokenSchema, db: Session = Depends(ge
     return {"access_token": new_access_token}
 
 
-@router.get("/me")
+@router.get("/me", response_model=UserResponseSchema)
 def me(current_user=Depends(get_current_user)):
     return current_user
 
