@@ -70,15 +70,9 @@ async function checkLogin(){
     }
 
     if(response.ok){
-        const user = await response.json();
-        user_pic.src = user.profile_pic;
-        user_pic.addEventListener("click", ()=>{
-            window.location.href = `/profile/${user.username}`
-        })
         return true
     }
 }
-
 
 function clearRooms(){
     rooms_container.innerHTML = "";
@@ -202,5 +196,4 @@ create_room_modal.addEventListener("click", (e)=>{
 
 search_btn.addEventListener("click", toggle_search_input);
 
-checkLogin();
 display_rooms();
