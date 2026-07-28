@@ -1,4 +1,6 @@
 const user_pic = document.getElementById("profile-img");
+const image_wrapper = document.getElementById("profile-image-container");
+
 const rooms_container = document.getElementById("rooms-container");
 const logout_btn = document.getElementById("logout");
 const show_create_modal_room_btn = document.getElementById("create-room-btn");
@@ -14,6 +16,17 @@ const notif_text = document.getElementById("notif-modal-text");
 const close_notif_btn = document.getElementById("modal-notif-close-btn");
 
 const token = localStorage.getItem("access_token");
+const username_colors = [
+    "#ffae00",
+    "#ff6b6b",
+    "#4ecdc4",
+    "#a78bfa",
+    "#60a5fa",
+    "#34d399",
+    "#f472b6",
+    "#fbbf24",
+];
+
 
 let selected_room_id = null;
 let is_room_created = null;
@@ -54,23 +67,6 @@ async function checkLogin(){
     if(!token){
         redirect_to_login();
         return
-    }
-
-    const response = await fetch("/me", {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    })
-
-    if(response.status === 401){
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
-        redirect_to_login();
-        return
-    }
-
-    if(response.ok){
-        return true
     }
 }
 
@@ -123,6 +119,51 @@ function logOut(){
 }
 logout_btn.addEventListener("click", logOut);
 
+
+function hashUsername(display_name){
+    let hash = 0;
+    for(let i = 0; i < display_name.length; i++){
+        hash = display_name.charCodeAt(i) + ((hash << 5) - hash);
+        hash = hash & hash;
+    }
+    return Math.abs(hash);
+}
+
+function getUsernameColor(display_name){
+    const hash = hashUsername(display_name);
+    return username_colors[hash % username_colors.length];
+}
+
+function getDefaultProfilePic(display_name){
+    const user_color = getUsernameColor(display_name);
+    user_pic.style.backgroundColor = user_color;
+    const span = document.createElement("span");
+    span.id = "user-first-letter";
+    span.textContent = display_name[0];
+
+    image_wrapper.appendChild(span);
+}
+
+async function getUserProfile(){
+    await checkLogin();
+
+    const user_response = await fetch("/me", {
+        headers:{
+            Authorization: `Bearer ${token}`
+        }
+    });
+    const user = await user_response.json();
+
+    if(user.profile_pic === null){
+        getDefaultProfilePic(user.display_name);
+    }else{
+        user_pic.src = `/${user.profile_pic}`;
+    }
+
+    user_pic.addEventListener("click", ()=>{
+        window.location.href = `/profile/${user.username}`;
+    })
+}
 
 search_room_input.addEventListener("input", async (e)=>{
     room_name = search_room_input.value;
@@ -196,4 +237,6 @@ create_room_modal.addEventListener("click", (e)=>{
 
 search_btn.addEventListener("click", toggle_search_input);
 
+checkLogin();
+getUserProfile();
 display_rooms();
