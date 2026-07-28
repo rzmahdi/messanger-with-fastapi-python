@@ -1,3 +1,5 @@
+🌐 [English](README.md) | [فارسی](README.fa.md)
+
 # 💬 Messanger
  
 یک اپلیکیشن ساده پیام‌رسان (Messenger) ساخته‌شده با **FastAPI**، برای یادگیری و تمرین ساخت یک چت روم بلادرنگ (real-time) با پایتون.
