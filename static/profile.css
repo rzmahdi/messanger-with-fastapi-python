@@ -102,13 +102,19 @@ body{
 #profile-image-container{
     position: relative;
 }
+#profile-image-container.pic{
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    margin: 0 2rem;
+}
 
 #user-first-letter{
     position: absolute;
     font-size: xx-large;
     pointer-events: none;
 
-    top: 45%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 
