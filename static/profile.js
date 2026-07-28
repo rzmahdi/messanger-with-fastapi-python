@@ -130,7 +130,7 @@ function hideError(el){
     el.classList.add("hide");
 }
 
-function nameVlidation(name){
+function userNameVlidation(name){
     const pattern = /^[a-zA-Z][a-zA-Z0-9_]{2,14}$/;
     return pattern.test(name);
 }
@@ -192,7 +192,7 @@ edit_btn.addEventListener("click", async ()=>{
     }else if(display_name_value.length > 40){
         showError(error_displayname, "cant be more than 40 char!");
         is_valid = false;
-    }else if(!nameVlidation(display_name_value)){
+    }else if(!userNameVlidation(display_name_value)){
         showError(error_displayname, "name muste be between 3 and 16 characters long and do not start with number!");
         is_valid = false;
     }
@@ -204,7 +204,7 @@ edit_btn.addEventListener("click", async ()=>{
     if(username_value.length === 0){
         showError(error_username, "username cant be empty!");
         is_valid = false;
-    }else if(!nameVlidation(username_value)){
+    }else if(!userNameVlidation(username_value)){
         showError(error_username, "name muste be between 3 and 16 characters long and do not start with number!");
         is_valid = false;
     }
