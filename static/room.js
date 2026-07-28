@@ -9,6 +9,7 @@ const chat_title_element = document.getElementById("chat-title");
 const chat_online_users_element = document.getElementById("chat-online-number");
 
 const room_action_button = document.getElementById("room-actions-dots");
+const back_btn = document.getElementById("back-btn");
 
 const room_context_box = document.getElementById("room-context-box");
 const room_context_edit_btn = document.getElementById("edit-room-btn");
@@ -763,6 +764,10 @@ room_action_button.addEventListener("click", (e)=>{
     e.stopPropagation();
     hideContextBox();
     showRoomContextBox();
+});
+
+back_btn.addEventListener("click", ()=>{
+    window.location.href = "/";
 });
 
 go_to_bottom_btn.addEventListener("click", scrollToBottom);
