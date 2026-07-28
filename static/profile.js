@@ -91,7 +91,8 @@ function getUsernameColor(){
 
 function getDefaultProfilePic(){
     const user_color = getUsernameColor();
-    profile_pic_element.style.backgroundColor = user_color;
+    image_wrapper.style.backgroundColor = user_color;
+    image_wrapper.classList.add("pic");
     const span = document.createElement("span");
     span.id = "user-first-letter";
     span.textContent = display_name[0];
@@ -101,6 +102,7 @@ function getDefaultProfilePic(){
 
 function getUserProfile(){
     if(profile_pic === "None"){
+        profile_pic_element.remove();
         getDefaultProfilePic();
     }else{
         profile_pic_element.src = `/${profile_pic}`;
