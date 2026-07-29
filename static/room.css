@@ -188,6 +188,32 @@ body{
     justify-content: flex-end;
 }
 
+.message-container .pic{
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+#user-first-letter{
+    position: absolute;
+    font-size: large;
+    pointer-events: none;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    color: black;
+}
+
+.margin-60{
+    margin: 0 60px;
+}
+
 #messages .message{
     min-width: 10%;
     max-width: 70%;
