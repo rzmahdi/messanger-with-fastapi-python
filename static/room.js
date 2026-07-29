@@ -230,6 +230,18 @@ function setUsernameVisibility(message_container_el, visible){
     b.style.display = visible ? "" : "none";
 }
 
+function setProfilePicVisibility(message_container_el, visible){
+    const pic = message_container_el.querySelector(".pic");
+    const message = message_container_el.querySelector(".message");
+
+    if(!pic) return;
+    if(!message) return;
+
+    pic.style.display = visible ? "" : "none";
+    if(!visible)
+        message.classList.add("margin-60");
+}
+
 function applyUsernameGrouping(message_container_el){
     if(!message_container_el) return;
     const username = message_container_el.dataset.username;
@@ -237,19 +249,48 @@ function applyUsernameGrouping(message_container_el){
     const prev = message_container_el.previousElementSibling;
     if(prev && prev.dataset.username === username){
         setUsernameVisibility(message_container_el, false);
+        setProfilePicVisibility(message_container_el, false);
     }else{
         setUsernameVisibility(message_container_el, true);
+        setProfilePicVisibility(message_container_el, true);
     }
 
     const next = message_container_el.nextElementSibling;
     if(next && next.dataset.username === username){
         setUsernameVisibility(next, false);
+        setProfilePicVisibility(next, false);
     }
 }
 
 function userProfile(username){
     window.location.href = `/profile/${username}`;
 }
+
+function getDefaultProfilePic(display_name){
+    const user_color = getUserColor(display_name);
+    const image_wrapper = document.createElement("div");
+
+    image_wrapper.style.backgroundColor = user_color;
+    image_wrapper.classList.add("pic");
+    const span = document.createElement("span");
+    span.id = "user-first-letter";
+    span.textContent = display_name[0];
+
+    image_wrapper.appendChild(span);
+    return image_wrapper
+}
+
+function getUserProfile(user){
+    if(!user.profile_pic || user.profile_pic === "None"){
+        return getDefaultProfilePic(user.display_name);
+    }else{
+        const img = document.createElement("img");
+        img.src = `/${user.profile_pic}`;
+        img.classList.add("pic");
+        return img
+    }
+}
+
 
 function addMessage(message, prepend = false){
     const container = document.getElementById("messages");
@@ -261,6 +302,8 @@ function addMessage(message, prepend = false){
     const div = document.createElement("div");
     div.className = "message";
     div.dataset.message_id = message.id;
+
+    profile_pic = getUserProfile(message.user);
 
 
     div.innerHTML = `
@@ -344,7 +387,13 @@ function addMessage(message, prepend = false){
         b.addEventListener("click", ()=>{
             userProfile(username);
         });
+
+        profile_pic.addEventListener("click", ()=>{
+            userProfile(username);
+        });
+
         div.firstElementChild.prepend(b);
+        message_container.appendChild(profile_pic);
     }
 
 
