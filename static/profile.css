@@ -156,6 +156,17 @@ body{
     height: 100dvh;
 }
 
+#delete-profile-pic{
+    background-color: rgb(255, 52, 52);
+    padding: 10px;
+    color: white;
+    border-radius: 5px;
+}
+
+#delete-profile-pic:active{
+    background-color: rgb(255, 84, 84);
+    scale: .98;
+}
 
 
 .information{
