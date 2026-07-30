@@ -762,9 +762,16 @@ div.edit-room-name-box{
 
     border-radius: 5px;
     border-left: 2px solid white;
+    cursor: pointer;
 
     overflow: hidden;
     max-height: 50px;
+    transition: .1s ease;
+}
+
+.message-container .message-reply-container:active{
+    scale: .95;
+    filter: contrast(2) saturate(2);
 }
 
 .message-container .message-reply-container{
