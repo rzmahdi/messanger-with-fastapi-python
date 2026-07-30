@@ -29,6 +29,7 @@ async function checkLogin(){
 
         if(current_user===username){
             showEditBtn();
+            showDeleteProfilePic();
         }
     }
 }
@@ -140,6 +141,10 @@ function userNameVlidation(name){
 function nameVlidation(name){
     const pattern = /^[a-zA-Z0-9_\-\s\u0600-\u06FF\u200C]{3,40}$/;
     return pattern.test(name);
+}
+
+function showDeleteProfilePic(){
+    delete_profile_pic.classList.remove("hide");
 }
 
 

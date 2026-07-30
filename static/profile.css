@@ -168,8 +168,12 @@ body{
     right: 10px;
 }
 
-#pic-overlay.show #delete-profile-pic{
+#pic-overlay.show #delete-profile-pic:not(.hide){
     display: block;
+}
+
+#delete-profile-pic.hide{
+    display: none;
 }
 
 #delete-profile-pic:hover{
