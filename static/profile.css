@@ -354,11 +354,16 @@ span.hide{
 }
 
 .upload-container{
-    width: 60%;
+    width: 95%;
     height: 150px;
+
     background-color: rgba(255, 255, 255, 0.1);
+    margin-left: 30px;
+    margin-right: 10px;
+
     border: 1px dashed #52575d;
     border-radius: 10px;
+
     display: flex;
     align-items: center;
     justify-content: center;
