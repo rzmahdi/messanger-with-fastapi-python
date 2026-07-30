@@ -216,14 +216,13 @@ body{
 }
 
 #messages .message{
-    min-width: 10%;
     max-width: 70%;
     width: fit-content;
     min-height: 20px;
     background-color: rgba(58, 58, 58, 0.9);
     border: none;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 4px;
     color: rgb(230, 230, 230);
     position: relative;
@@ -247,7 +246,7 @@ body{
 
 
 #messages .message:hover{
-    background-color: rgba(68, 68, 68, 0.9);
+    filter: brightness(1.1);
 }
 
 #messages .message.me{
@@ -259,21 +258,29 @@ body{
     background-color: rgba(0, 150, 255, 0.28);
 }
 
-#messages .message div p{
+#messages .message div p:not(.message-reply-text){
     margin: 0 3px;
     white-space: pre-wrap;
+    padding-right: 35px;
 }
 
-#messages .message.me p{
-    margin: 2px 3px;
+.message-reply-text{
+    margin: 0 3px;
+}
+
+#messages .message.me div p{
+    margin: 2px 3px;    
 }
 
 #messages .message span{
     color: rgba(255, 255, 255, 0.5);
     width: fit-content;
     position: block;
-    font-size: 11px;
+    font-size: 13px;
     line-height: 1;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
 }
 
 #messages .message-container.me.remove{
