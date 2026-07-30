@@ -48,6 +48,7 @@ const close_profile_container_btn = document.getElementById("close-edit-btn");
 
 const profile_container = document.getElementById("profile-container");
 const edit_profile_container = document.getElementById("edit-profile-container");
+const delete_profile_pic = document.getElementById("delete-profile-pic");
 
 const display_name_input = document.getElementById("display-name-input");
 const username_input = document.getElementById("username-input");
@@ -101,7 +102,8 @@ function getDefaultProfilePic(){
 }
 
 function getUserProfile(){
-    if(profile_pic === "None"){
+    console.log(profile_pic);
+    if(!profile_pic || profile_pic === "None"){
         profile_pic_element.remove();
         getDefaultProfilePic();
     }else{
@@ -278,4 +280,23 @@ edit_btn.addEventListener("click", async ()=>{
         const error = await response.json();
         alert(error.detail || "failed to update profile!");
     }
+})
+
+
+delete_profile_pic.addEventListener("click", async ()=>{
+    const token = await getValidToken();
+    const response = await fetch("/me/profile-pic", {
+        method: "DELETE",
+        headers:{
+            "accept": "application/json",
+            Authorization: `Bearer ${token}`,
+        }
+    });
+
+    if(!response.ok){
+        const error = await response.json();
+        alert(error.detail || "faild to delete profile!");
+    }
+
+    window.location.reload();
 })
