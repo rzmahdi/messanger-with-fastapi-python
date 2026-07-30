@@ -157,14 +157,27 @@ body{
 }
 
 #delete-profile-pic{
-    background-color: rgb(255, 52, 52);
+    display: none;
     padding: 10px;
-    color: white;
+    background-color: transparent;
+    color: rgb(212, 212, 212);
     border-radius: 5px;
+    cursor: pointer;
+    position: fixed;
+    top: 20px;
+    right: 10px;
+}
+
+#pic-overlay.show #delete-profile-pic{
+    display: block;
+}
+
+#delete-profile-pic:hover{
+    color: white;
+    background-color: #3a3d41;
 }
 
 #delete-profile-pic:active{
-    background-color: rgb(255, 84, 84);
     scale: .98;
 }
 
