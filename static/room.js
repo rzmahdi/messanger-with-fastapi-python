@@ -295,9 +295,11 @@ function getUserProfile(user){
 function addMessage(message, prepend = false){
     const container = document.getElementById("messages");
 
+    const username = message.user.username;
     const message_container = document.createElement("div");
     message_container.className = "message-container";
     message_container.dataset.message_id = message.id;
+    message_container.dataset.username = username;
 
     const div = document.createElement("div");
     div.className = "message";
@@ -325,11 +327,14 @@ function addMessage(message, prepend = false){
         if(message.reply){
             const color = getUserColor(message.reply.user.display_name);
 
-            reply_div_username.textContent = message.reply.user.display_name;
-            reply_div_username.style.color = color;
+            if(username !== current_user.sub){
+                reply_div_username.style.color = color;
+                reply_div.style.borderColor = color;
+                reply_div.style.background = color + "25";
+            }
 
-            reply_div.style.background = color + "25";
-            reply_div.style.borderColor = color;
+            reply_div_username.textContent = message.reply.user.display_name;
+
 
             reply_div_text.textContent = message.reply.content;
             reply_div_text.dir = "auto";
@@ -371,9 +376,7 @@ function addMessage(message, prepend = false){
     }
 
 
-    const username = message.user.username;
     const display_name = message.user.display_name;
-    message_container.dataset.username = username;
 
     if(username === current_user.sub){
         div.classList.add("me");
