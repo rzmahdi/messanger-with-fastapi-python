@@ -1,6 +1,6 @@
 🌐 [English](README.md) | [فارسی](README.fa.md)
 
-# 💬 Messanger
+# 💬 Messenger
 
 A simple Messenger application built with **FastAPI**, for learning and practicing how to build a real-time chat room with Python.
 
