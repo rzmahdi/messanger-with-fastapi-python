@@ -53,7 +53,7 @@ const delete_profile_pic = document.getElementById("delete-profile-pic");
 const display_name_input = document.getElementById("display-name-input");
 const username_input = document.getElementById("username-input");
 const bio_input = document.getElementById("bio-input");
-const pic_input = document.getElementById("pic");
+const pic_input = document.getElementById("dropzone-file");
 const edit_btn = document.getElementById("edit-btn");
 
 const error_displayname = document.getElementById("edit-display-name-error-span");
@@ -102,7 +102,6 @@ function getDefaultProfilePic(){
 }
 
 function getUserProfile(){
-    console.log(profile_pic);
     if(!profile_pic || profile_pic === "None"){
         profile_pic_element.remove();
         getDefaultProfilePic();
