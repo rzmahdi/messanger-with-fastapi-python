@@ -760,6 +760,8 @@ div.edit-room-name-box{
     margin: 2px;
     padding: 2px;
 
+    min-width: 100px;
+
     border-radius: 5px;
     border-left: 2px solid white;
     cursor: pointer;
