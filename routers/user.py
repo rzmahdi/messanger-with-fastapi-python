@@ -45,6 +45,13 @@ async def upload_profile_pic(
     return {"profile_pic": current_user.profile_pic}
 
 
+@router.delete("/me/profile-pic")
+def delete_profile_pic(current_user: User=Depends(get_current_user), db: Session=Depends(get_db)):
+    current_user.profile_pic = None
+    db.commit()
+    db.refresh(current_user)
+
+
 @router.put("/profile/{username}", response_model=UserResponseSchema)
 def edit_user_info(
     request: UserEditSchema,
