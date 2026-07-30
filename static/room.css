@@ -763,7 +763,7 @@ div.edit-room-name-box{
     min-width: 100px;
 
     border-radius: 5px;
-    border-left: 2px solid white;
+    border-left: 4px solid white;
     cursor: pointer;
 
     overflow: hidden;
