@@ -416,3 +416,9 @@ span.hide{
 .font-semibold{
     font-weight: 500;
 }
+
+@media (max-width: 768px) {
+    #profile-img.show{
+        width: 90%;
+    }
+}
