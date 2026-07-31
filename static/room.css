@@ -261,7 +261,13 @@ body{
 #messages .message div p:not(.message-reply-text){
     margin: 0 3px;
     white-space: pre-wrap;
+}
+
+.pdefualt{
     padding-right: 35px;
+}
+.pedited{
+    padding-right: 75px;
 }
 
 .message-reply-text{
@@ -272,7 +278,7 @@ body{
     margin: 2px 3px;    
 }
 
-#messages .message span{
+#messages .message span.date{
     color: rgba(255, 255, 255, 0.5);
     width: fit-content;
     position: block;
@@ -280,6 +286,17 @@ body{
     line-height: 1;
     position: absolute;
     right: 5px;
+    bottom: 5px;
+}
+
+#messages .message span.edited{
+    color: rgba(255, 255, 255, 0.5);
+    width: fit-content;
+    position: block;
+    font-size: 13px;
+    line-height: 1;
+    position: absolute;
+    right: 40px;
     bottom: 5px;
 }
 

@@ -310,9 +310,9 @@ function addMessage(message, prepend = false){
 
     div.innerHTML = `
         <div>
-            <p dir='auto'>${message.content}</p>
+            <p class="pdefualt" dir='auto'>${message.content}</p>
         </div>
-        <span>${formatDate(message.created_at)}</span>
+        <span class='date'>${formatDate(message.created_at)}</span>
     `;
 
     if(message.reply_id){
@@ -403,6 +403,9 @@ function addMessage(message, prepend = false){
     if(message.is_edited){
         const span = document.createElement("span");
         span.textContent = "edited";
+        span.className = "edited";
+        const p = div.querySelector("p");
+        p.classList.add("pedited");
         div.appendChild(span);
     }
 
@@ -738,7 +741,10 @@ function updateMessageInDOM(content, message_id){
 
     if(div.lastChild.textContent !== "edited"){
         const span = document.createElement("span");
+        const p = div.querySelector("#messages .message div p:not(.message-reply-text)");
         span.textContent = "edited";
+        span.className = "edited";
+        p.classList.add("pedited");
         div.appendChild(span);
     }
 }
