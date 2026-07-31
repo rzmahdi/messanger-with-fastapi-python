@@ -206,6 +206,7 @@ create_room_btn.addEventListener("click", async (e)=>{
         show_notif("Room Created✅");
         clearRooms();
         display_rooms(room_name);
+        search_room_input.classList.add("show");
     }else if(create_room_response.status === 409){
         is_room_created = false;
         show_notif("Room already exists!❌");
