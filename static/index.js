@@ -179,9 +179,7 @@ search_room_input.addEventListener("input", async (e)=>{
 show_create_modal_room_btn.addEventListener("click", show_create_room_modal);
 
 create_room_btn.addEventListener("click", async (e)=>{
-    if(!await checkLogin()){
-        redirect_to_login();
-    }
+    await checkLogin();
 
     room_name = create_room_input.value;
     if(!room_name){
