@@ -183,7 +183,7 @@ profile_edit_btn.addEventListener("click", ()=>{
 
     username_input.value = username;
     display_name_input.value = display_name;
-    bio_input.value = bio;
+    bio_input.value = bio!=="None" ? bio : "";
 })
 
 close_profile_container_btn.addEventListener("click", ()=>{
@@ -192,9 +192,9 @@ close_profile_container_btn.addEventListener("click", ()=>{
 })
 
 edit_btn.addEventListener("click", async ()=>{
-    const display_name_value = display_name_input.value;
+    const display_name_value = display_name_input.value.trim();
     const username_value = username_input.value;
-    const bio_value = bio_input.value;
+    const bio_value = bio_input.value.trim();
 
     let is_valid = true;
 

@@ -53,6 +53,7 @@ def register(request: UserCreateSchema, db: Session = Depends(get_db)):
         password_hash=hash_password(request.password),
         security_question=request.security_question,
         security_answer_hash=hash_password(request.security_answer.strip().lower()),
+        bio = None,
     )
 
     db.add(new_user)

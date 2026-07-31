@@ -77,9 +77,13 @@ def edit_user_info(
     if len(request.display_name) > 40:
         raise HTTPException(400, "display name can't be more than 40 char!")
 
+    if request.bio.strip() in ["", None, "None"]:
+        current_user.bio = None
+    else:
+        current_user.bio = request.bio
+
     current_user.username = request.username
     current_user.display_name = request.display_name
-    current_user.bio = request.bio
 
     db.commit()
     db.refresh(current_user)
