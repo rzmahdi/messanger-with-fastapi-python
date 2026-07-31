@@ -150,29 +150,18 @@ body{
     display: none;
     pointer-events: none;
 }
-
 .eye svg.show{
     display: block;
 }
 
-#passwords-not-match,
-#register-empty-username,
-#register-password-invalid,
-#answer-empty-span,
-#register-empty-name,
-#question-invalid-span{
+.error{
     display: none;
     color: red;
     font-weight: bold;
     animation: show_password_error .5s ease;
     width: 80%;
 }
-#passwords-not-match.error,
-#register-empty-username.error,
-#register-password-invalid.error,
-#answer-empty-span.error,
-#register-empty-name.error,
-#question-invalid-span.error{
+.show{
     display: block;
 }
 
@@ -185,7 +174,9 @@ body{
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(5px);
+    z-index: 2;
 }
+
 #register-modal-overlay-notif.show{
     display: block;
 }

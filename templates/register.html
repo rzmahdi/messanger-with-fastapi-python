@@ -17,10 +17,12 @@
     <div class="register-form-box">
         <form id="register-form">
             <input id="register-display-name" placeholder="name">
-            <span id="register-empty-name">Name cant be empty!</span>
+            <span class="error" id="register-empty-name">Name cant be empty!</span>
+            <span class="error" id="invalid-name">Name must be at least 3 characters long and maximum 40 character</span>
 
             <input id="register-username" placeholder="@username">
-            <span id="register-empty-username">Username cant be empty!</span>
+            <span class="error" id="register-empty-username">Username cant be empty!</span>
+            <span class="error" id="invalid-username">Username must be at least 2 characters long and can't start with numbers!</span>
 
             <div class="input-wrapper">
                 <input id="register-password" type="password" placeholder="password">
@@ -52,17 +54,17 @@
                 </button>
             </div>
                 
-            <span id="passwords-not-match">Passwords are not match!</span>
-            <span id="register-password-invalid">Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.</span>
+            <span class="error" id="passwords-not-match">Passwords are not match!</span>
+            <span class="error" id="register-password-invalid">Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.</span>
 
             <select id="register-security-question">
                 <option>Security Question</option>
             </select>
-            <span id="question-invalid-span">Select an option!</span>
+            <span class="error" id="question-invalid-span">Select an option!</span>
 
 
             <input type="text" id="register-security-answer" placeholder="Security answer">
-            <span id="answer-empty-span">Answer can not be empty!</span>
+            <span class="error" id="answer-empty-span">Answer can not be empty!</span>
             
             <button type="submit">Register</button>
             <span id="login-text">allready have an account? <a id="login-link" href="/login">Login</a></span>
