@@ -58,7 +58,7 @@ def reset_passwordd_page(request: Request, db: Session=Depends(get_db)):
 
 
 @router.get("/profile/{username}")
-def reset_passwordd_page(request: Request, username:str, db:Session=Depends(get_db)):
+def user_profile(request: Request, username:str, db:Session=Depends(get_db)):
     user = db.query(User).filter_by(username=username).first()
     if not user:
         return page_404(request)
