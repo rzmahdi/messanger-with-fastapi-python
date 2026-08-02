@@ -57,6 +57,36 @@ body{
     gap: .3rem;
 }
 
+.button{
+    background: rgba(255, 255, 255, .15);
+    color: rgb(230, 230, 230);
+    width: 40px;
+    padding: 8px 10px;
+    backdrop-filter: blur(10px);
+    text-align: center;
+    border-radius: 50px;
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.button:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.button:active{
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.hide{
+    opacity: 0;
+}
+
+.deactive{
+    display: none;
+}
+
 .room-header-container{
     width: 100%;
     display: flex;
@@ -71,53 +101,37 @@ body{
     gap: 5px;
 }
 
-#back-btn{
-    background: rgba(255, 255, 255, .15);
-    color: rgb(230, 230, 230);
+#search-input{
+    display: block;
+    height: 50px;
+    width: 100%;
 
-    padding: 10px;
-
-    backdrop-filter: blur(10px);
-
-    text-align: center;
-
-    border-radius: 50px;
     border: none;
+    outline: none;
+    padding: 0 15px;
+
+    background-color: rgba(255, 255, 255, 0.15);
     border-top: 1px solid rgba(255, 255, 255, 0.2);
-    
-    cursor: pointer;
+    color: white;
+
+    font-size: large;
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+
     transition: .2s ease;
 }
-#back-btn:hover{
-    background: rgba(255, 255, 255, .2)
+
+#search-input.hide{
+    width: 0%;
+    padding: 0;
 }
-#back-btn:active{
-    background: rgba(255, 255, 255, .25)
+
+#search-input.deactive{
+    display: none;
 }
 
-#room-actions-dots{
-    background: rgba(255, 255, 255, .15);
-    color: rgb(230, 230, 230);
-
-    width: 40px;
-    padding: 10px;
-
-    backdrop-filter: blur(10px);
-
-    text-align: center;
-
-    border-radius: 50px;
-    border: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    
-    cursor: pointer;
-    transition: .2s ease;
-}
-#room-actions-dots:hover{
-    background: rgba(255, 255, 255, .2)
-}
-#room-actions-dots:active{
-    background: rgba(255, 255, 255, .25)
+#search-input::placeholder{
+    color: rgb(199, 199, 199);
 }
 
 #chat-container, #chat-title-container{
@@ -136,6 +150,10 @@ body{
     overflow: hidden;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     position: relative;
+}
+
+.w100{
+    width: 100%;
 }
 
 #chat-title-container{
@@ -160,8 +178,17 @@ body{
 
     -webkit-backdrop-filter: blur(24px);
     backdrop-filter: blur(16px);
+
+    transition: .2s ease;
 }
 
+#chat-title-container.hide{
+    transform: translate(0, 20px);
+}
+
+#chat-title-container.deactive{
+    display: none;
+}
 
 #messages{
     flex: 1;
@@ -341,7 +368,7 @@ body{
     height: 42px;
     max-height: 102px;
 
-    transition: border-color 0.15s ease, background-color 0.15s ease;
+    transition: 0.15s ease;
 }
 
 #messages::-webkit-scrollbar, #message-input::-webkit-scrollbar {
@@ -366,6 +393,25 @@ body{
 #message-input:focus{
     border-color: rgba(0, 150, 255, 0.5);
     background-color: rgba(255, 255, 255, 0.12);
+}
+
+#message-input.deactive{
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+}
+
+#search-counter-span{
+    color: white;
+    display: flex;
+    width: 100%;
+    align-self: center;
+    color: white;
+    flex-direction: row;
+    justify-content: center;
+}
+#search-counter-span.deactive{
+    display: none;
 }
 
 #send-btn, #edit-btn{
@@ -399,8 +445,11 @@ body{
 }
 
 
-#go-to-bottom-container{
+#go-to-bottom-container,
+#go-to-next,
+#go-to-prev{
     background-color: rgba(58, 58, 58);
+    color: rgb(218, 218, 218);
 
     width: 50px;
     height: 50px;
@@ -425,13 +474,29 @@ body{
     pointer-events: none;
 }
 
-#go-to-bottom-container.show{
+#go-to-next{
+    bottom: 160px;
+}
+
+#go-to-next.deactive,
+#go-to-prev.deactive{
+    opacity: 0.7;
+    cursor: default;
+    pointer-events: none;
+    transform: translate(0, 5px);
+}
+
+#go-to-bottom-container.show,
+#go-to-next.show,
+#go-to-prev.show{
     opacity: 1;
     transform: translateY(0) scale(1);
     pointer-events: auto;
 }
 
-#go-to-bottom-container:hover{
+#go-to-bottom-container:hover,
+#go-to-next:hover,
+#go-to-prev:hover{
     background-color: rgb(77, 77, 77);
 }
 

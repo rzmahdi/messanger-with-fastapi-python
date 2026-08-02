@@ -6,10 +6,16 @@ const message_context_box = document.getElementById("message-context-box");
 const message_context_edit_btn = document.getElementById("edit-message-btn");
 const message_context_delete_btn = document.getElementById("delete-message-btn");
 const chat_title_element = document.getElementById("chat-title");
+const chat_title_container = document.getElementById("chat-title-container");
 const chat_online_users_element = document.getElementById("chat-online-number");
 
 const room_action_button = document.getElementById("room-actions-dots");
 const back_btn = document.getElementById("back-btn");
+const search_btn = document.getElementById("search-btn");
+const search_input = document.getElementById("search-input");
+const go_to_next_btn = document.getElementById("go-to-next");
+const go_to_prev_btn = document.getElementById("go-to-prev");
+const search_counter_span = document.getElementById("search-counter-span");
 
 const room_context_box = document.getElementById("room-context-box");
 const room_context_edit_btn = document.getElementById("edit-room-btn");
@@ -49,12 +55,14 @@ const username_colors = [
     "#fbbf24",
 ];
 
-
 let oldest_message_id = null;
 let selected_message_id = null;
 let is_editing = null;
 let is_replied = null;
 let is_initializing_room = false;
+let is_searching = false;
+let search_message_id = 0;
+let current_search_result = [];
 
 chat_title_element.textContent = room_name;
 
@@ -500,6 +508,34 @@ function isNearBottom(){
     );
 }
 
+async function loadOldMessage(){
+    is_loading_older = true;
+
+    const res = await fetch(
+        `/room/${room_id}/messages?limit=100&before_id=${oldest_message_id}`
+    );
+    const older_messages = await res.json();
+
+    if (older_messages.length === 0) {
+        oldest_message_id = null;
+        is_loading_older = false;
+        return;
+    }
+
+    oldest_message_id = older_messages[0].id;
+
+    const previous_scroll_height = container.scrollHeight;
+
+    for (let i = older_messages.length - 1; i >= 0; i--) {
+        addMessage(older_messages[i], true);
+    }
+
+    const new_scroll_height = container.scrollHeight;
+    container.scrollTop += (new_scroll_height - previous_scroll_height);
+
+    is_loading_older = false;
+}
+
 function scrollToBottom(){
     const messages = document.getElementById("messages");
     messages.scrollTo({ top: messages.scrollHeight, behavior: "smooth" });
@@ -510,34 +546,10 @@ const container = document.getElementById("messages");
 let is_loading_older = false;
 
 container.addEventListener("scroll", async () => {
-    go_to_bottom_btn.classList.toggle("show", !isNearBottom());
+    go_to_bottom_btn.classList.toggle("show", (!isNearBottom() && !is_searching));
 
     if (container.scrollTop === 0 && !is_loading_older && oldest_message_id !== null) {
-        is_loading_older = true;
-
-        const res = await fetch(
-            `/room/${room_id}/messages?limit=20&before_id=${oldest_message_id}`
-        );
-        const older_messages = await res.json();
-
-        if (older_messages.length === 0) {
-            oldest_message_id = null;
-            is_loading_older = false;
-            return;
-        }
-
-        oldest_message_id = older_messages[0].id;
-
-        const previous_scroll_height = container.scrollHeight;
-
-        for (let i = older_messages.length - 1; i >= 0; i--) {
-            addMessage(older_messages[i], true);
-        }
-
-        const new_scroll_height = container.scrollHeight;
-        container.scrollTop += (new_scroll_height - previous_scroll_height);
-
-        is_loading_older = false;
+        await loadOldMessage();
     }
 });
 
@@ -695,6 +707,32 @@ function hideOfflineStatus(){
     offline_container.classList.remove("show");
 }
 
+function deactiveNextBtn(){
+    go_to_next_btn.classList.remove("show");
+    go_to_next_btn.classList.add("deactive");
+}
+function activeNextBtn(){
+    go_to_next_btn.classList.remove("deactive");
+    go_to_next_btn.classList.add("show");
+}
+
+function deactivePrevBtn(){
+    go_to_prev_btn.classList.remove("show");
+    go_to_prev_btn.classList.add("deactive");
+}
+function activePrevBtn(){
+    go_to_prev_btn.classList.remove("deactive");
+    go_to_prev_btn.classList.add("show");
+}
+
+function updateSearchSpanCounter(is_empty = false){
+    if(is_empty === true){
+        search_counter_span.textContent = '0 of 0';
+        return;
+    }
+    search_counter_span.textContent = `${search_message_id+1} of ${current_search_result.length}`;
+}
+
 function deleteMessage(){
     if(!isSocketReady()){
         console.warn("Socket not ready yet, delete not sent.");
@@ -788,6 +826,59 @@ function hideEditBtn(){
 }
 
 
+async function getSearchedMessageList(message){
+    const response = await fetch(`/room/${room_id}/messages?message=${message}`);
+    const messages = await response.json();
+    if(messages.length === 0) return [];
+    messages.reverse();
+
+    const message_ids = [];
+    messages.forEach(m => message_ids.push(m.id));
+    return message_ids;
+}
+
+
+function showSearchedMessages(message){
+    activeNextBtn();
+    activePrevBtn();
+}
+
+function hideSearchMessages(){
+    search_input.value = "";
+}
+
+function showMessageInput(){
+    message_input.classList.remove("deactive");
+    search_counter_span.classList.add("deactive");
+    go_to_next_btn.classList.remove("deactive");
+    go_to_prev_btn.classList.remove("deactive");
+    showSendBtn();
+    showEditdBtn();
+}
+
+function hideMessageInput(){
+    message_input.classList.add("deactive");
+    search_counter_span.classList.remove("deactive");
+    hideSendBtn();
+    hideEditBtn();
+}
+
+function goToMessage(id){
+    const target_el = document.querySelector(`[data-message_id='${id}']`);
+    
+    if(!target_el){
+        loadOldMessage();
+        search_message_id -= 1;
+    }
+
+    target_el.scrollIntoView({ behavior: "smooth", block: "center" });
+    target_el.classList.add("highlight");
+
+    setTimeout(() => {
+        target_el.classList.remove("highlight");
+    }, 1000);
+}
+
 message_context_edit_btn.addEventListener("click", ()=>{
     is_editing = true;
     hideContextBox();
@@ -825,8 +916,57 @@ room_action_button.addEventListener("click", (e)=>{
 });
 
 back_btn.addEventListener("click", ()=>{
+    if(is_searching){
+        showMessageInput();
+        go_to_prev_btn.classList.remove("show");
+        go_to_next_btn.classList.remove("show");
+        search_input.classList.add("hide");
+        setTimeout(() => {
+            search_input.classList.add("deactive");
+            chat_title_container.classList.remove("deactive");
+            search_btn.classList.remove("deactive");
+            room_action_button.classList.remove("deactive");
+        }, 200);
+
+        setTimeout(() => {
+            chat_title_container.classList.remove("hide");
+            search_btn.classList.remove("hide");
+            room_action_button.classList.remove("hide");
+        }, 220);
+
+        is_searching = false;
+        hideSearchMessages();
+        search_counter_span.textContent = "";
+        selected_message_id = 0;
+        current_search_result = [];
+        return
+    }
     window.location.href = "/";
 });
+
+search_btn.addEventListener("click", ()=>{
+    showSearchedMessages();
+    hideMessageInput();
+    deactiveNextBtn();
+    deactivePrevBtn();
+    search_btn.classList.add("hide");
+    room_action_button.classList.add("hide");
+    chat_title_container.classList.add("hide");
+    setTimeout(() => {
+        chat_title_container.classList.add("deactive");
+        search_btn.classList.add("deactive");
+        room_action_button.classList.add("deactive");
+        search_input.classList.remove("deactive");
+    }, 200);
+
+    setTimeout(() => {
+        search_input.classList.remove("hide");
+        search_input.focus();
+    }, 210);
+
+    is_searching = true;
+})
+
 
 go_to_bottom_btn.addEventListener("click", scrollToBottom);
 
@@ -914,6 +1054,61 @@ close_reply_box_btn.addEventListener("click", ()=>{
     is_replied = false;
     hideReplyBox();
 })
+
+search_input.addEventListener("input", async ()=>{
+    search_message_id = 0;
+
+    if(search_input.value.length === 0){
+        current_search_result = [];
+        deactiveNextBtn();
+        deactivePrevBtn();
+        updateSearchSpanCounter(is_empty=true);
+        return;
+    }
+
+    current_search_result = await getSearchedMessageList(search_input.value);
+
+    if(current_search_result.length === 0){
+        deactiveNextBtn();
+        deactivePrevBtn();
+        updateSearchSpanCounter(is_empty=true);
+        return;
+    }
+    goToMessage(current_search_result[search_message_id]);
+    updateNavButtons();
+})
+
+function updateNavButtons(){
+    updateSearchSpanCounter();
+    if(search_message_id+1 >= current_search_result.length){
+        deactiveNextBtn();
+    }else{
+        activeNextBtn();
+    }
+
+    if(search_message_id-1 < 0){
+        deactivePrevBtn();
+    }else{
+        activePrevBtn();
+    }
+}
+
+go_to_next_btn.addEventListener("click", ()=>{
+    if(search_message_id+1 >= current_search_result.length) return;
+
+    search_message_id ++;
+    goToMessage(current_search_result[search_message_id]);
+    updateNavButtons();
+})
+
+go_to_prev_btn.addEventListener("click", ()=>{
+    if(search_message_id-1 < 0) return;
+
+    search_message_id --;
+    goToMessage(current_search_result[search_message_id]);
+    updateNavButtons();
+})
+
 
 document.addEventListener("click", (e) => {
     if (!message_context_box.contains(e.target)) {
