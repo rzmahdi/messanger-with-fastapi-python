@@ -381,7 +381,7 @@ function addMessage(message, prepend = false){
 
             setTimeout(() => {
                 target_el.classList.remove("highlight");
-            }, 1000);
+            }, 4000);
         });
 
         div.firstElementChild.prepend(reply_div);
@@ -880,7 +880,7 @@ function goToMessage(id){
 
     setTimeout(() => {
         target_el.classList.remove("highlight");
-    }, 1000);
+    }, 4000);
 }
 
 message_context_edit_btn.addEventListener("click", ()=>{
