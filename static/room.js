@@ -357,7 +357,7 @@ function addMessage(message, prepend = false){
         reply_div.appendChild(reply_div_username);
         reply_div.appendChild(reply_div_text);
 
-        reply_div.addEventListener("click", (e)=>{
+        reply_div.addEventListener("click", async (e)=>{
             e.stopPropagation();
             hideContextBox();
 
@@ -365,11 +365,15 @@ function addMessage(message, prepend = false){
                 return;
             }
 
-            const target_el = document.querySelector(`[data-message_id='${message.reply_id}']`);
+            const msg_diff = oldest_message_id - message.reply_id;
+            const less_to_10 = msg_diff % 10;
+            const limit = msg_diff + (10 - less_to_10);
+
+            let target_el = document.querySelector(`[data-message_id='${message.reply_id}']`);
             
             if(!target_el){
-                console.warn("Original message not found in DOM (may need to load older messages)");
-                return;
+                await loadOldMessage(limit);
+                target_el = document.querySelector(`[data-message_id='${message.reply_id}']`);
             }
 
             target_el.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -508,11 +512,11 @@ function isNearBottom(){
     );
 }
 
-async function loadOldMessage(){
+async function loadOldMessage(limit=100){
     is_loading_older = true;
 
     const res = await fetch(
-        `/room/${room_id}/messages?limit=100&before_id=${oldest_message_id}`
+        `/room/${room_id}/messages?limit=${limit}&before_id=${oldest_message_id}`
     );
     const older_messages = await res.json();
 
