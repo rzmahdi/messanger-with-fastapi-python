@@ -11,7 +11,13 @@ from typing import List
 router = APIRouter()
 
 @router.get("/room/{room_id}/messages", response_model=List[MessageResponseSchema])
-def get_messages(room_id: str, limit: int = 20, before_id: int | None=None, db: Session=Depends(get_db)):
+def get_messages(
+    room_id: str,
+    limit: int | None = None,
+    before_id: int | None=None,
+    message: str | None = None,
+    db: Session=Depends(get_db)
+):
     if not room_exist(room_id, db):
         raise HTTPException(404, "Room does not exists!")
     
@@ -19,6 +25,9 @@ def get_messages(room_id: str, limit: int = 20, before_id: int | None=None, db: 
     
     if before_id:
         query = query.filter(Message.id < before_id)
+
+    if message:
+        query = query.filter(Message.content.ilike(f"%{message}%"))
 
     messages = (
         query.order_by(Message.id.desc())
