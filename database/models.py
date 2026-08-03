@@ -60,6 +60,7 @@ class Message(Base):
     room_id = Column(UUID(as_uuid=True), ForeignKey("rooms.id", ondelete="CASCADE"), nullable=False)
     created_at = Column(DateTime, default=datetime.now, nullable=False)
     is_edited = Column(Boolean, default=False, nullable=False)
+    is_deleted = Column(Boolean, default=False, nullable=False)
     reply_id = Column(Integer, ForeignKey("messages.id"), nullable=True)
 
     user = relationship("User", back_populates="messages")
