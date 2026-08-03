@@ -301,6 +301,7 @@ function getUserProfile(user){
 
 
 function addMessage(message, prepend = false){
+    if(message.is_deleted) return;
     const container = document.getElementById("messages");
 
     const username = message.user.username;
@@ -332,7 +333,7 @@ function addMessage(message, prepend = false){
         reply_div_username.className = "message-reply-username";
         reply_div_text.className = "message-reply-text";
 
-        if(message.reply){
+        if(!message.reply.is_deleted){
             const color = getUserColor(message.reply.user.display_name);
 
             if(username !== current_user.sub){
