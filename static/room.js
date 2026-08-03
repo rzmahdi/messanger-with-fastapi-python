@@ -347,6 +347,33 @@ function addMessage(message, prepend = false){
 
             reply_div_text.textContent = message.reply.content;
             reply_div_text.dir = "auto";
+
+            reply_div.addEventListener("click", async (e)=>{
+                e.stopPropagation();
+                hideContextBox();
+
+                if(!message.reply){
+                    return;
+                }
+
+                const msg_diff = oldest_message_id - message.reply_id;
+                const less_to_10 = msg_diff % 10;
+                const limit = msg_diff + (10 - less_to_10);
+
+                let target_el = document.querySelector(`[data-message_id='${message.reply_id}']`);
+                
+                if(!target_el){
+                    await loadOldMessage(limit);
+                    target_el = document.querySelector(`[data-message_id='${message.reply_id}']`);
+                }
+
+                target_el.scrollIntoView({ behavior: "smooth", block: "center" });
+                target_el.classList.add("highlight");
+
+                setTimeout(() => {
+                    target_el.classList.remove("highlight");
+                }, 4000);
+            });
         }else{
             reply_div.classList.add("deleted");
             reply_div_username.remove();
@@ -357,33 +384,6 @@ function addMessage(message, prepend = false){
 
         reply_div.appendChild(reply_div_username);
         reply_div.appendChild(reply_div_text);
-
-        reply_div.addEventListener("click", async (e)=>{
-            e.stopPropagation();
-            hideContextBox();
-
-            if(!message.reply){
-                return;
-            }
-
-            const msg_diff = oldest_message_id - message.reply_id;
-            const less_to_10 = msg_diff % 10;
-            const limit = msg_diff + (10 - less_to_10);
-
-            let target_el = document.querySelector(`[data-message_id='${message.reply_id}']`);
-            
-            if(!target_el){
-                await loadOldMessage(limit);
-                target_el = document.querySelector(`[data-message_id='${message.reply_id}']`);
-            }
-
-            target_el.scrollIntoView({ behavior: "smooth", block: "center" });
-            target_el.classList.add("highlight");
-
-            setTimeout(() => {
-                target_el.classList.remove("highlight");
-            }, 4000);
-        });
 
         div.firstElementChild.prepend(reply_div);
     }
