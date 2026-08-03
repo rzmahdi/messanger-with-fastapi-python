@@ -105,8 +105,10 @@ async def handle_delete_message(data: dict, room_id: str, current_user, db):
     if not message.user_id == current_user.id:
         return
     
-    db.delete(message)
+    message.is_deleted = True    
+    message.content = ""
     db.commit()
+    db.refresh(message)
 
     await manager.broadcast(
         room_id,
