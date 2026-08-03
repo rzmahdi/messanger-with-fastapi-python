@@ -59,6 +59,7 @@ class ReplyPreviewSchema(BaseModel):
     id: int
     user: UserBaseSchema
     content: str
+    is_deleted: bool
 
     class Config:
         from_attributes = True
@@ -71,6 +72,7 @@ class MessageResponseSchema(BaseModel):
     reply_id: int | None
     created_at: datetime
     is_edited: bool
+    is_deleted: bool
     user: UserBaseSchema
     reply: ReplyPreviewSchema | None = None
 
