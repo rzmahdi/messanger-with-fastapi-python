@@ -857,7 +857,6 @@ function showMessageInput(){
     go_to_next_btn.classList.remove("deactive");
     go_to_prev_btn.classList.remove("deactive");
     showSendBtn();
-    showEditdBtn();
 }
 
 function hideMessageInput(){
@@ -865,6 +864,8 @@ function hideMessageInput(){
     search_counter_span.classList.remove("deactive");
     hideSendBtn();
     hideEditBtn();
+    hideEditBox();
+    message_input.value = "";
 }
 
 function goToMessage(id){
