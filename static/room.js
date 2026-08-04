@@ -955,6 +955,7 @@ search_btn.addEventListener("click", ()=>{
     hideMessageInput();
     deactiveNextBtn();
     deactivePrevBtn();
+    hideReplyBox();
     search_btn.classList.add("hide");
     room_action_button.classList.add("hide");
     chat_title_container.classList.add("hide");
