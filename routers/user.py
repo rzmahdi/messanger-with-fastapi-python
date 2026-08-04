@@ -47,7 +47,14 @@ async def upload_profile_pic(
 
 @router.delete("/me/profile-pic")
 def delete_profile_pic(current_user: User=Depends(get_current_user), db: Session=Depends(get_db)):
-    current_user.profile_pic = None
+    if current_user.profile_pic:
+        profile_path = current_user.profile_pic
+        if os.path.exists(profile_path):
+            os.remove(profile_path)
+            current_user.profile_pic = None
+    else:
+        raise HTTPException(400, "user has no profile to delete!")
+
     db.commit()
     db.refresh(current_user)
 
